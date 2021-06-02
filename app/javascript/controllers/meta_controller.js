@@ -15,13 +15,12 @@ static values = { metamaskConnected: Boolean, address: String }
 
   pay_button() {
     console.log("Paying!!", this.element)
-    let payResult =  pay();
+    let payResult =  pay(this.addressValue);
     console.log("Pay result " + payResult);
     payResult
     .then(() => {
-        //payment succeeded
-        console.log('Do this');
-        alert("Payment succeeded");
+        //payment placed
+        alert("Payment placed");
         //Redirect 
 
     })

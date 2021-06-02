@@ -62,13 +62,17 @@ export function connect_accounts() {
     });
 }
 
-export async function pay() {
+export async function pay(address) {
+    if(address.length != 42) {
+      new err("Invalid Address");
+    }
+
     console.log("Pay method");
     const transactionParameters = {
     nonce: '0x00', // ignored by MetaMask
     // gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
     // gas: '0x2710', // customizable by user during MetaMask confirmation.
-    to: '0x62163F3A7BD1D30b6734961c5a6205a5e8A6746e', // Required except during contract publications.
+    to: address, // Required except during contract publications.
     from: ethereum.selectedAddress, // must match user's active address.
     value: '10000000000000', // Only required to send ether to the recipient from the initiating external account.
     data: '', // Optional, but used for defining smart contract creation and interaction.
