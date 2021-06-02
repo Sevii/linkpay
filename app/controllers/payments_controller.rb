@@ -1,4 +1,8 @@
 class PaymentsController < ApplicationController
+   content_security_policy do |p|
+    p.frame_ancestors :self, 'https://www.sledgeworx.io'
+  end
+
   def index
   end
 
