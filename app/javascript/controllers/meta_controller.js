@@ -3,7 +3,7 @@ import { connect_accounts, startApp, pay } from '../metamask/index';
 
 
 export default class extends Controller {
-static targets = [ "connected" ]
+static targets = [ "connected", "orderStatus", "payButton", "connectButon" ]
 static values = { metamaskConnected: Boolean, address: String }
 
   connect_metamask() {
@@ -15,12 +15,14 @@ static values = { metamaskConnected: Boolean, address: String }
 
   pay_button() {
     console.log("Paying!!", this.element)
+    this.payButtonTarget.disabled = true;
+
     let payResult =  pay(this.addressValue);
     console.log("Pay result " + payResult);
     payResult
-    .then(() => {
+    .then((txn) => {
         //payment placed
-        alert("Payment placed");
+        this.orderStatusTarget.textContent="Payment Placed txn: " + txn;
         //Redirect 
 
     })
@@ -28,10 +30,12 @@ static values = { metamaskConnected: Boolean, address: String }
       if (err.code === 4001) {
         // EIP-1193 userRejectedRequest error
         // If this happens, the user rejected the connection request.
-        alert("Payment Rejected \n " + err);
+        this.payButtonTarget.disabled = false;
+        this.orderStatusTarget.textContent="Payment Rejected";
       } else {
         console.error(err);
-        alert("Payment failed \n " + err);
+        this.payButtonTarget.disabled = false;
+        this.orderStatusTarget.textContent="Payment failed error code: " + err.code;
       }
     });
 }
@@ -54,7 +58,6 @@ static values = { metamaskConnected: Boolean, address: String }
 
       // Anytime this controller disconnects from the DOM
       disconnect() {
-
       }
 
 }   
