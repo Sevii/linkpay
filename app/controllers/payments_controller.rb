@@ -10,4 +10,8 @@ class PaymentsController < ApplicationController
     print "parameters yo " + params[:id]
     @inovice = Inovice.find(params[:id])
   end
+
+  def button
+    @inovice = Inovice.find(params[:id])
+  end
 end

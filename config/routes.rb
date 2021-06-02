@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   
   resources :inovices
 
-  get '/inovices/button/:id', to: "inovices#button", as: 'button'
+  get '/pay/button/:id', to: "payments#button", as: 'button'
 end
