@@ -6,6 +6,11 @@ class InovicesController < ApplicationController
     @inovice = Inovice.find(params[:id])
   end
 
+   def button
+    @inovice = Inovice.find(params[:id])
+  end
+
+
   def new
     @inovice = Inovice.new
   end

@@ -9,10 +9,10 @@
       <%= inovice.name %>
       <%= inovice.price %>
       <%= inovice.ethereum_address %>
-      <%= button_to "Pay", payment_path, method: :get,  params: { inovice_id: inovice.id }%>
+      <%= button_to "Pay", payment_path(inovice.id), method: :get%>
     </li>
   <% end %>
 </ul>
 
 
-  <!-- <%= button_to "Pay", payment_path, method: :get,  params: { inovice_id: 1 }%> -->
+  <!-- <%= button_to "Pay", payment_path(1), method: :get%> -->

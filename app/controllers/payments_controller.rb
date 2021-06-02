@@ -7,7 +7,7 @@ class PaymentsController < ApplicationController
   end
 
   def show
-    print "parameters yo " + params[:inovice_id]
-    @inovice = Inovice.find(params[:inovice_id])
+    print "parameters yo " + params[:id]
+    @inovice = Inovice.find(params[:id])
   end
 end

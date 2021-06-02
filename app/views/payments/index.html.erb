@@ -1,15 +1,4 @@
 
-<h1>Book a Consultation with Nick</h1>
-<p>Sledgeworx Technical Due Dillegence Deep Dive</p>
 
 
-<div data-controller="meta">
-    <div>
-      <button data-action="click->meta#connect_metamask">Connect to Ethereum</button>
-  </div>
-      <button data-action="click->meta#pay_button">Pay Eth to sledgeworx.eth</button>
-  <div>
-         <div hidden="true" data-meta-target="connected">Ethereum Avaliable &#9989;</div>
-  </div>
-
-</div>
+<%= button_to "Pay with Ethereum", payment_path, method: :get,  params: { inovice_id: inovice.id }%>
