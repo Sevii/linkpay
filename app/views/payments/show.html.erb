@@ -1,0 +1,19 @@
+<h1>Checkout with Ethereum</h1>
+
+
+<div data-controller="meta" data-meta-address-value="<%= @inovice.ethereum_address %>">
+    <div >
+      <h1> Product: <%=@inovice.name %></h1>
+      <p> Price in Gwei: <%= @inovice.price %></p>
+      <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
+    </div>
+
+    <div>
+      <button data-action="click->meta#connect_metamask">Connect to Ethereum</button>
+  </div>
+      <button data-action="click->meta#pay_button">Pay Eth to sledgeworx.eth</button>
+  <div>
+         <div hidden="true" data-meta-target="connected">Ethereum Avaliable &#9989;</div>
+  </div>
+
+</div>

@@ -1,0 +1,18 @@
+
+<h1>Welcome to sledgeworx order page</h1>
+<p>To pay for services use the button below</p>
+
+
+<ul>
+  <% @inovices.each do |inovice| %>
+    <li>
+      <%= inovice.name %>
+      <%= inovice.price %>
+      <%= inovice.ethereum_address %>
+      <%= button_to "Pay", payment_path, method: :get,  params: { inovice_id: inovice.id }%>
+    </li>
+  <% end %>
+</ul>
+
+
+  <!-- <%= button_to "Pay", payment_path, method: :get,  params: { inovice_id: 1 }%> -->

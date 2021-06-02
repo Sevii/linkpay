@@ -1,0 +1,2 @@
+class Inovice < ApplicationRecord
+end
