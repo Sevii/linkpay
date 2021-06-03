@@ -5,4 +5,9 @@ Rails.application.routes.draw do
   resources :inovices
 
   get '/pay/button/:id', to: "payments#button", as: 'button'
+
+
+  get '/pay/complete/:id', to: "payments#complete", as: 'complete'
+
+  post 'pay/create', to: "payments#create", as: "create"
 end

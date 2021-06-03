@@ -7,11 +7,32 @@ class PaymentsController < ApplicationController
   end
 
   def show
-    print "parameters yo " + params[:id]
     @inovice = Inovice.find(params[:id])
   end
 
   def button
     @inovice = Inovice.find(params[:id])
   end
+
+  def complete
+    @order = Order.find(params[:id])
+    @inovice = Inovice.find(@order.inovice_id)
+
+  end
+
+
+  def create
+    @order = Order.new(order_params)
+
+    if @order.save
+      # render json: @order
+      redirect_to complete_path @order.id
+    else
+      render error: {error: "Unable to save order"}, status: 400
+    end
+  end
+  private
+    def order_params
+      params.permit(:transaction_hash, :inovice_id)
+    end
 end

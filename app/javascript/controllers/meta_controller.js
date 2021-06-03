@@ -1,10 +1,10 @@
 import { Controller } from "stimulus"
 import { connect_accounts, startApp, pay } from '../metamask/index';
-
+import Rails from '@rails/ujs';
 
 export default class extends Controller {
-static targets = [ "connected", "orderStatus", "payButton", "connectButon" ]
-static values = { metamaskConnected: Boolean, address: String }
+static targets = [ "connected", "orderStatus", "payButton", "connectButon", "orderButton", "results" ]
+static values = { metamaskConnected: Boolean, address: String, inovice: String }
 
   connect_metamask() {
     this.metamaskConnectedValue = connect_accounts();
@@ -16,6 +16,9 @@ static values = { metamaskConnected: Boolean, address: String }
   pay_button() {
     console.log("Paying!!", this.element)
     this.payButtonTarget.disabled = true;
+    console.log("inoviceId: " + this.inoviceValue);
+
+
 
     let payResult =  pay(this.addressValue);
     console.log("Pay result " + payResult);
@@ -23,7 +26,31 @@ static values = { metamaskConnected: Boolean, address: String }
     .then((txn) => {
         //payment placed
         this.orderStatusTarget.textContent="Payment Placed txn: " + txn;
-        //Redirect 
+        // console.log(this.orderButtonTarget.innerHTML);
+
+
+        //AJAX - Save Order details
+        let orderData = {
+          transaction_hash: txn,
+          inovice_id: this.inoviceValue,
+        }
+  
+        Rails.ajax({
+          type: "POST", 
+          url: "/pay/create",
+          data: new URLSearchParams(orderData).toString(),
+          success: function(repsonse){
+            console.log("success: " + new URLSearchParams(orderData).toString())
+            console.log(repsonse)
+          },
+          error: function(repsonse){
+            console.log("failure: " + new URLSearchParams(orderData).toString())
+            console.log(repsonse)
+          }
+        })
+
+
+        //JS redirect to Order page 
 
     })
     .catch((err) => {
