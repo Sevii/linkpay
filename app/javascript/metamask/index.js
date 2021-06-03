@@ -55,7 +55,7 @@ export function connect_accounts() {
       if (err.code === 4001) {
         // EIP-1193 userRejectedRequest error
         // If this happens, the user rejected the connection request.
-        console.log('Please connect to MetaMask. 2');
+        console.log('Please connect to MetaMask. 2', err);
       } else {
         console.error(err);
       }
