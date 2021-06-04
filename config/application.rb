@@ -20,7 +20,6 @@ module Linkpay
     # config.eager_load_paths << Rails.root.join("extras")
 
 
-    # config.action_dispatch.cookies_same_site_protection = :none
 
   end
 end
