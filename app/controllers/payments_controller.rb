@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+   protect_from_forgery with: :null_session
    content_security_policy do |p|
     p.frame_ancestors :self, 'https://www.sledgeworx.io'
   end
