@@ -25,7 +25,6 @@ class PaymentsController < ApplicationController
     @order = Order.new(order_params)
 
     if @order.save
-      # render json: @order
       redirect_to complete_path @order.id
     else
       render error: {error: "Unable to save order"}, status: 400

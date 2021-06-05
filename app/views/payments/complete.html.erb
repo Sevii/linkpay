@@ -1,8 +1,8 @@
 <p> Payment submitted</p>
   <div>
     <h1>Product: <%=@inovice.name %></h1>
-    <p> Price in Gwei: <%= @order.currency_amount %></p>
-    <p> Price in USD: <%= @inovice.usd_price %></p>
+    <p> Price in wei: <%= @order.currency_amount %></p>
+    <p> Price in USD (cents): <%= @inovice.usd_price %></p>
     <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
     
   </div>

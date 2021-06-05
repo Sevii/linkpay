@@ -3,7 +3,7 @@
 /*****************************************/
 import detectEthereumProvider from '@metamask/detect-provider';
 import MetaMaskOnboarding from '@metamask/onboarding';
-
+import BigNumber from "bignumber.js";
 var currentAccount = {};
 
 
@@ -69,20 +69,44 @@ export async function pay(address, usdt_price, product_price) {
     console.log("Pay method");
     console.log(address);
     console.log("Eth/usdt: " + usdt_price);
+    //2625.31000000
 
-    let currencyValue = "10000000000000"; 
+    let usdt_price_bn = new BigNumber(usdt_price * 100);
 
+    console.log(usdt_price_bn.toFixed());
+
+    let product_price_bn = new BigNumber(product_price);
+    console.log(product_price_bn.toFixed());
+
+    let eth_amount_bn = product_price_bn.div(usdt_price_bn);
+
+    console.log("eth_amount: " + eth_amount_bn.toFixed());
+    console.log("usdt_price_bn: " + usdt_price_bn.toFixed());
+    console.log("product_price_bn: " + product_price_bn.toFixed());
+
+
+    let currencyValue = eth_amount_bn.toFixed(); 
+    console.log("Amount in eth: " + currencyValue);
+
+    // Convert eth fraction to wei 1ETH = 10^18 wei 
+    // gwei cannot be fractional so we convert to an integer
+    let gweiValue = eth_amount_bn.times(new BigNumber("1000000000000000000")).integerValue();
+
+    console.log("Amount in gwei: " + gweiValue.toFixed());
+
+    // let weiValue = ethers.utils.parseEther(eth_amount_bn.toFixed());
+    // console.log("wei value: " + weiValue);
     const transactionParameters = {
     nonce: '0x00', // ignored by MetaMask
     // gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
     // gas: '0x2710', // customizable by user during MetaMask confirmation.
     to: address, // Required except during contract publications.
     from: ethereum.selectedAddress, // must match user's active address.
-    value: currencyValue, // Only required to send ether to the recipient from the initiating external account.
+    value:  gweiValue.toString(16), // Only required to send ether to the recipient from the initiating external account.
     data: '', // Optional, but used for defining smart contract creation and interaction.
     chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
   };
-
+  console.log(transactionParameters);
   // txHash is a hex string
   // As with any RPC call, it may throw an error
   const txHash = await ethereum.request({
@@ -93,10 +117,10 @@ export async function pay(address, usdt_price, product_price) {
   let orderPlaced = {
           transaction_hash: txHash,
           currency_to_usd: usdt_price,
-          currency_amount: currencyValue
+          currency_amount: gweiValue.toFixed()
         }
 
-  console.log(txHash);
+  console.log(orderPlaced);
   return orderPlaced;
 }
 
