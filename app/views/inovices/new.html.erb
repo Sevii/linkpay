@@ -7,13 +7,14 @@
   </div>
 
   <div>
-    <%= form.label :price %><br>
-    <%= form.text_area :price %>
-  </div>
-  <div>
     <%= form.label :ethereum_address %><br>
     <%= form.text_field :ethereum_address %>
   </div>
+    <div>
+    <%= form.label :usd_price %><br>
+    <%= form.text_field :usd_price %>
+  </div>
+
 
   <% @inovice.errors.full_messages_for(:ethereum_address).each do |message| %>
       <div><%= message %></div>

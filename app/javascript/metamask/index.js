@@ -62,20 +62,23 @@ export function connect_accounts() {
     });
 }
 
-export async function pay(address, price) {
+export async function pay(address, usdt_price, product_price) {
     if(address.length != 42) {
       new err("Invalid Address");
     }
     console.log("Pay method");
     console.log(address);
-    console.log("Eth/usdt: " + price);
+    console.log("Eth/usdt: " + usdt_price);
+
+    let currencyValue = "10000000000000"; 
+
     const transactionParameters = {
     nonce: '0x00', // ignored by MetaMask
     // gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
     // gas: '0x2710', // customizable by user during MetaMask confirmation.
     to: address, // Required except during contract publications.
     from: ethereum.selectedAddress, // must match user's active address.
-    value: '10000000000000', // Only required to send ether to the recipient from the initiating external account.
+    value: currencyValue, // Only required to send ether to the recipient from the initiating external account.
     data: '', // Optional, but used for defining smart contract creation and interaction.
     chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
   };
@@ -87,8 +90,14 @@ export async function pay(address, price) {
     params: [transactionParameters],
   });
 
+  let orderPlaced = {
+          transaction_hash: txHash,
+          currency_to_usd: usdt_price,
+          currency_amount: currencyValue
+        }
+
   console.log(txHash);
-  return txHash;
+  return orderPlaced;
 }
 
 function sleep(ms) {

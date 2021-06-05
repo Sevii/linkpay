@@ -4,7 +4,7 @@ import Rails from '@rails/ujs';
 
 export default class extends Controller {
 static targets = [ "connected", "orderStatus", "payButton", "connectButon", "orderButton", "results" ]
-static values = { metamaskConnected: Boolean, address: String, inovice: String }
+static values = { metamaskConnected: Boolean, address: String, inovice: String, productPrice: String}
 
   connect_metamask() {
     this.metamaskConnectedValue = connect_accounts();
@@ -21,17 +21,18 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String }
     return fetch("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT")
     .then(response => response.json())
     .then(pair => pair.price)
-    .then(price => pay(this.addressValue, price))
-    .then((txn) => {
+    .then(usdt_price => pay(this.addressValue, usdt_price, this.productPriceValue))
+    .then((orderDetails) => {
         //payment placed
-        this.orderStatusTarget.textContent="Payment Placed txn: " + txn;
+        this.orderStatusTarget.textContent="Payment Placed txn: " + orderDetails.txn;
         // console.log(this.orderButtonTarget.innerHTML);
-
 
         //AJAX - Save Order details
         let orderData = {
-          transaction_hash: txn,
+          transaction_hash: orderDetails.txn,
           inovice_id: this.inoviceValue,
+          currency_to_usd: orderDetails.currency_to_usd,
+          currency_amount: orderDetails.currency_amount
         }
   
         Rails.ajax({
@@ -47,7 +48,6 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String }
             console.log(repsonse)
           }
         })
-
 
         //JS redirect to Order page 
 

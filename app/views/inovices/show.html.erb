@@ -3,6 +3,6 @@
 
   <div >
     <h1> Product: <%=@inovice.name %></h1>
-    <p> Price in Gwei: <%= @inovice.price %></p>
+    <p> Price in Dollars: $<%= @inovice.usd_price/100 %></p>
     <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
   </div>

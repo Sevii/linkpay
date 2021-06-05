@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_02_210112) do
+ActiveRecord::Schema.define(version: 2021_06_05_182605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,9 @@ ActiveRecord::Schema.define(version: 2021_06_02_210112) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "ethereum_address"
+    t.integer "usd_price"
+    t.integer "owner_id"
+    t.boolean "price_in_usd"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -28,6 +31,11 @@ ActiveRecord::Schema.define(version: 2021_06_02_210112) do
     t.string "transaction_hash"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "transaction_timestamp"
+    t.string "currency"
+    t.bigint "currency_amount"
+    t.string "customer_email"
+    t.integer "currency_to_usd"
   end
 
 end
