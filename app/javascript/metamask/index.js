@@ -102,7 +102,7 @@ export async function pay(address, usdt_price, product_price) {
     // gas: '0x2710', // customizable by user during MetaMask confirmation.
     to: address, // Required except during contract publications.
     from: ethereum.selectedAddress, // must match user's active address.
-    value:  gweiValue.toString(16), // Only required to send ether to the recipient from the initiating external account.
+    value:  gweiValue.toString(16), // Amount of wei to send, must be in hex for large numbers
     data: '', // Optional, but used for defining smart contract creation and interaction.
     chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
   };

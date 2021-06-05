@@ -3,7 +3,7 @@ import { connect_accounts, startApp, pay } from '../metamask/index';
 import Rails from '@rails/ujs';
 
 export default class extends Controller {
-static targets = [ "connected", "orderStatus", "payButton", "connectButon", "orderButton", "results" ]
+static targets = [ "connected", "orderStatus", "payButton", "connectButon", "orderButton", "results", "emailfield" ]
 static values = { metamaskConnected: Boolean, address: String, inovice: String, productprice: String}
 
   connect_metamask() {
@@ -12,11 +12,18 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String, 
     this.connectedTarget.hidden = this.metamaskConnectedValue; 
   }
 
-
   pay_button() {
     console.log("Paying!!", this.element)
     this.payButtonTarget.disabled = true;
     console.log("inoviceId: " + this.inoviceValue);
+
+    if(this.emailfieldTarget.value.length < 5) {
+      this.orderStatusTarget.textContent = "Email not long enough";
+      this.payButtonTarget.disabled = false;
+      return;
+    }
+    let customerEmail = this.emailfieldTarget.value;
+    console.log(customerEmail);
 
     return fetch("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT")
     .then(response => response.json())
@@ -32,7 +39,8 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String, 
           transaction_hash: orderDetails.transaction_hash,
           inovice_id: this.inoviceValue,
           currency_to_usd: orderDetails.currency_to_usd,
-          currency_amount: orderDetails.currency_amount
+          currency_amount: orderDetails.currency_amount,
+          customer_email: customerEmail
         }
         console.log("orderData");
         console.log(orderData);
@@ -67,6 +75,8 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String, 
       }
     });
 }
+
+
 
   //The first time this controller connects to the DOM
       initialize() {

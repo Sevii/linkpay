@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
     @orders = Order.all
   end
   def show
-    @orders = Order.all
+    @order = Order.find(params[:id])
+    @inovice = Inovice.find(@order.inovice_id)
   end
 end
