@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   
   resources :inovices
 
+  get'/orders', to: "orders#index"
+
   get '/pay/button/:id', to: "payments#button", as: 'button'
 
 

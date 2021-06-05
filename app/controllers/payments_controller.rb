@@ -21,7 +21,6 @@ class PaymentsController < ApplicationController
 
   end
 
-
   def create
     @order = Order.new(order_params)
 

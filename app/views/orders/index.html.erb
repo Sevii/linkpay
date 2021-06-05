@@ -1,0 +1,14 @@
+
+<h1>Welcome to sledgeworx orders page</h1>
+
+<ul>
+  <% @orders.each do |order| %>
+    <li>
+      <%= order.id %>
+      <%= order.inovice_id %>
+      <%= order.transaction_hash %>
+    </li>
+  <% end %>
+</ul>
+
+
