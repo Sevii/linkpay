@@ -18,11 +18,10 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String }
     this.payButtonTarget.disabled = true;
     console.log("inoviceId: " + this.inoviceValue);
 
-
-
-    let payResult =  pay(this.addressValue);
-    console.log("Pay result " + payResult);
-    payResult
+    return fetch("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT")
+    .then(response => response.json())
+    .then(pair => pair.price)
+    .then(price => pay(this.addressValue, price))
     .then((txn) => {
         //payment placed
         this.orderStatusTarget.textContent="Payment Placed txn: " + txn;

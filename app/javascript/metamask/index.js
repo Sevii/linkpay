@@ -62,12 +62,13 @@ export function connect_accounts() {
     });
 }
 
-export async function pay(address) {
+export async function pay(address, price) {
     if(address.length != 42) {
       new err("Invalid Address");
     }
     console.log("Pay method");
     console.log(address);
+    console.log("Eth/usdt: " + price);
     const transactionParameters = {
     nonce: '0x00', // ignored by MetaMask
     // gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
