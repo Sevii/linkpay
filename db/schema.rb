@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_05_182605) do
+ActiveRecord::Schema.define(version: 2021_06_05_214044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2021_06_05_182605) do
     t.integer "usd_price"
     t.integer "owner_id"
     t.boolean "price_in_usd"
+    t.string "seller_name"
   end
 
   create_table "orders", force: :cascade do |t|
