@@ -25,9 +25,10 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String, 
     let customerEmail = this.emailfieldTarget.value;
     console.log(customerEmail);
 
-    return fetch("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT")
+    return fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd")
     .then(response => response.json())
-    .then(pair => pair.price)
+    .then(pair => pair.ethereum)
+    .then(pair => pair.usd)
     .then(usdt_price => pay(this.addressValue, usdt_price, this.productpriceValue))
     .then((orderDetails) => {
         //payment placed
