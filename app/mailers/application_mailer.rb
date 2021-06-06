@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'admin@seviipay.com'
+  default from: 'admin@www.seviipay.com'
   layout 'mailer'
 end
