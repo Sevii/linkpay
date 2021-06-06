@@ -1,7 +1,7 @@
 class PaymentsController < ApplicationController
    protect_from_forgery with: :null_session
    content_security_policy do |p|
-    p.frame_ancestors :self, 'https://www.sledgeworx.io'
+    p.frame_ancestors :self, 'https://www.sledgeworx.io', "https://eatliftprogram.com"
   end
 
   def index

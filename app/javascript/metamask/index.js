@@ -104,7 +104,7 @@ export async function pay(address, usdt_price, product_price) {
     from: ethereum.selectedAddress, // must match user's active address.
     value:  gweiValue.toString(16), // Amount of wei to send, must be in hex for large numbers
     data: '', // Optional, but used for defining smart contract creation and interaction.
-    chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+    chainId: '0x1', // 0x3 is Ropstein test network Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
   };
   console.log(transactionParameters);
   // txHash is a hex string
