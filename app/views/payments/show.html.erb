@@ -3,8 +3,10 @@
 <div data-controller="meta" data-meta-productprice-value=<%= @inovice.usd_price %> data-meta-address-value="<%= @inovice.ethereum_address %>" data-meta-inovice-value="<%= @inovice.id %>" >
     <div >
       <h1> Product: <%=@inovice.name %></h1>
+      <p> Sold by <%=@inovice.seller_name %></p>
       <p> Price in Dollars: $<%=( @inovice.usd_price * 0.01)%></p>
       <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
+
     </div>
 
     <div>
