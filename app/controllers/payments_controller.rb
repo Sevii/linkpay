@@ -25,7 +25,7 @@ class PaymentsController < ApplicationController
     @order = Order.new(order_params)
     @inovice = Inovice.find(@order.inovice_id)
     if @order.save
-      OrderPlacedMailer.with(order: @order, inovice: @inovice).order_placed_email.deliver_later
+      OrderPlacedMailer.with(order: @order, inovice: @inovice).order_placed_email.deliver_now
       redirect_to complete_path @order.id
     else
       render error: {error: "Unable to save order"}, status: 400
