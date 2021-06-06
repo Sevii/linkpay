@@ -15,6 +15,10 @@
     <%= form.text_field :usd_price %>
   </div>
 
+  <div>
+    <%= form.label :owner_email %><br>
+    <%= form.email_field :owner_email %>
+  </div>
 
   <% @inovice.errors.full_messages_for(:ethereum_address).each do |message| %>
       <div><%= message %></div>

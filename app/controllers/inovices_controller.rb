@@ -21,6 +21,6 @@ class InovicesController < ApplicationController
   end
   private
     def inovice_params
-      params.require(:inovice).permit(:name, :ethereum_address, :usd_price)
+      params.require(:inovice).permit(:name, :ethereum_address, :usd_price, :owner_email)
     end
 end
