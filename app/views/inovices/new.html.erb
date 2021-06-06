@@ -20,6 +20,13 @@
     <%= form.email_field :owner_email %>
   </div>
 
+  <div>
+    <%= form.label :seller_name %><br>
+    <%= form.text_field :seller_name %>
+  </div>
+
+
+
   <% @inovice.errors.full_messages_for(:ethereum_address).each do |message| %>
       <div><%= message %></div>
     <% end %>

@@ -1,0 +1,16 @@
+<h1>Order placed for <%= @inovice.name %> </h1>
+
+<p> Order Id# <%= @order.id %></p>
+<p> Inovice# <%= @order.inovice_id %></p>
+<p> Transaction hash: <%= @order.transaction_hash %></p>
+<p> Customer Email: <%= @order.customer_email %></p>
+<p><% if Rails.env.development? %>
+<a href="https://ropsten.etherscan.io/tx/<%= @order.transaction_hash %>">Ropsten Link</a>
+<% else %>
+<a href="https://etherscan.io/tx/<%= @order.transaction_hash %>">Etherscan Link</a>
+<% end %>
+</p>
+
+<p> Currency amount: <%= @order.currency_amount %>  </p>
+<p> Price in Dollars: $<%=( @inovice.usd_price * 0.01)%></p>
+      
