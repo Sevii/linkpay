@@ -6,3 +6,9 @@
     <p> Price in Dollars: $<%= @inovice.usd_price/100 %></p>
     <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
   </div>
+
+
+<p>Example HTML for this inovice</p>
+&lt;form action="https://www.seviipay.com/pay/<%=@inovice.id%>" class="inline"&gt;
+    &lt;button class="float-left submit-button"&gt;Pay with Ethereum&lt;/button&gt;
+&lt;/form&gt;

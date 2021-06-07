@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   get'/orders/:id', to: "orders#show"
 
   get '/', to: "home#index"
+  get '/pricing', to: "home#pricing"
 end
