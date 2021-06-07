@@ -1,33 +1,49 @@
-<h2>Checkout with Ethereum</h1>
+<h2 class="mt-auto">Checkout with Ethereum</h1>
 
-<div class="container" data-controller="meta" data-meta-productprice-value=<%= @inovice.usd_price %> data-meta-address-value="<%= @inovice.ethereum_address %>" data-meta-inovice-value="<%= @inovice.id %>" >
-    <div >
-      <h1> Product: <%=@inovice.name %></h1>
-      <p> Sold by <b><%=@inovice.seller_name %></b></p>
-      <p> Price in Dollars: <b>$<%=( @inovice.usd_price * 0.01)%></b></p>
-      <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
+<div class="rounded-3" data-controller="meta" data-meta-productprice-value=<%= @inovice.usd_price %> data-meta-address-value="<%= @inovice.ethereum_address %>" data-meta-inovice-value="<%= @inovice.id %>" >
 
+<div class="row">
+  <div class="col">
+    <div class="p-2 rounded-3">
+    <h3> Product: <%=@inovice.name %></h3>
+    <h4> Sold by <b><%=@inovice.seller_name %></b></h4>
+    <p> Price in Dollars: <b>$<%=( @inovice.usd_price * 0.01)%></b></p>
+    <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
+  </div>
+    </div>
+    <div class="col">
     </div>
 
-    <div>
-      <button class="btn btn-secondary" data-action="click->meta#connect_metamask">Connect to Ethereum</button>
-  </div>
-    <div>
-    <%= form_for :subscribe, html: { id: 'sub_form' } do |f| %>
-      <input data-meta-target="emailfield" type="email" name="email" placeholder="Your email address" id="sub_email">
-      <button  data-meta-target="payButton" data-action="click->meta#pay_button" type="submit" id="sub_btn">Pay with Ethereum</button><br>
-      <p id="sub_output" class="lead" style="color: white;"></p>
-    <% end %>
-  </div>
-<div data-meta-target="results"></div>
+</div>
+<hr class="my-4">
+<div class="h-5 p-2">
+    <div >
+      <button class="btn btn-secondary btn-sm" data-action="click->meta#connect_metamask">Connect to Ethereum</button>
+    </div>
 
   <div>
       <div hidden="true" data-meta-target="connected">Ethereum Avaliable &#9989;</div>
   </div>
+</div>
+
+<div class="h-5 p-2">
+    <form action=""  class="row row-cols-lg-auto g-3 align-items-center">
+      <div class="col-12">
+        <input class="form-control" data-meta-target="emailfield" type="email" name="email" placeholder="Your email address" id="sub_email">
+      </div>
+         <div class="col-12">
+      <button class="btn btn-success" data-meta-target="payButton" data-action="click->meta#pay_button" type="submit" id="sub_btn">Pay with Ethereum</button><br>
+    </div>
+    </form>
   <div>
       <div data-meta-target="orderStatus"></div>
   </div>
-  <div>
-    <p>Pricing Data provided by CoinGecko API</p>
+</div>
+
+  
+
+
+  <div class="p-2">
+    <p><b>Pricing Data provided by CoinGecko API</b></p>
   </div>
 </div>
