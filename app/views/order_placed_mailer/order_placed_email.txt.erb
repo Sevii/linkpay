@@ -12,6 +12,7 @@ https://ropsten.etherscan.io/tx/<%= @order.transaction_hash %>">Ropsten Link
 https://etherscan.io/tx/<%= @order.transaction_hash %>">Etherscan Link
 <% end %>
 
-Currency amount: <%= @order.currency_amount %>
+Eth Amount <%= @order.currency_amount / BigDecimal('10e18') %>
+Wei Amount: <%= @order.currency_amount %>
 Price in Dollars: $<%=( @inovice.usd_price * 0.01)%>
 ETH/USD Pair when placed: <%= @order.currency_to_usd * 0.01%>
