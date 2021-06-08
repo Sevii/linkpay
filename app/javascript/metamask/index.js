@@ -116,7 +116,7 @@ export async function pay(address, usdt_price, product_price) {
 
   let orderPlaced = {
           transaction_hash: txHash,
-          currency_to_usd: usdt_price,
+          currency_to_usd: usdt_price_bn.integerValue(),
           currency_amount: gweiValue.toFixed()
         }
 

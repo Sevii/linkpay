@@ -14,3 +14,4 @@ https://etherscan.io/tx/<%= @order.transaction_hash %>">Etherscan Link
 
 Currency amount: <%= @order.currency_amount %>
 Price in Dollars: $<%=( @inovice.usd_price * 0.01)%>
+ETH/USD Pair when placed: <%= @order.currency_to_usd * 0.01%>

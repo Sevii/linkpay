@@ -2,7 +2,11 @@
   <div>
     <h1>Product: <%=@inovice.name %></h1>
     <p> Price in wei: <%=(  @order.currency_amount )%></p>
+
+    <p> Eth Amount <%= @order.currency_amount / BigDecimal('10e18') %>
     <p> Price in Dollars: $<%=( @inovice.usd_price * 0.01)%></p>
-    <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
+    <p> Paid to <b><%= @inovice.ethereum_address %> </b></p>
     
+    <p>ETH/USD Pair when placed: $<%= @order.currency_to_usd * 0.01%></p>
   </div>
+

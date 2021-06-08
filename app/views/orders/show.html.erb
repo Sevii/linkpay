@@ -12,7 +12,8 @@
 </p>
 
 <p> Currency amount: <%= @order.currency_amount %>  </p>
+<p> Eth Amount <%= @order.currency_amount / BigDecimal('10e18') %>
 <p> Price in Dollars: $<%=( @inovice.usd_price * 0.01)%></p>
-      
+<p>ETH/USD Pair when placed: <%= @order.currency_to_usd * 0.01%></p>      
 
 
