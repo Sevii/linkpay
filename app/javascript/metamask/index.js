@@ -7,27 +7,26 @@ import BigNumber from "bignumber.js";
 var currentAccount = {};
 
 
-export async function startApp(provider) {
-    // this returns the provider, or null if it wasn't detected
-  var eth_provider = await detectEthereumProvider();
-
-  if (eth_provider !== window.ethereum) {
-    console.error('Do you have multiple wallets installed?');
-  } else if(eth_provider !== null) {
-    console.log("Wallet avaliable");
-
-  } 
-
-  if (eth_provider == null ) {
-    // Prompt to install metamask
-    const onboarding = new MetaMaskOnboarding();
-    onboarding.startOnboarding();
+export async function walletCompatible() {
+  console.log("wallet compatible!");
+  let metamaskInstalled = MetaMaskOnboarding.isMetaMaskInstalled();
+  if(metamaskInstalled) {
+    console.log("Metamask installed!");
+    return true;
   }
 
-  // If the provider returned by detectEthereumProvider is not the same as
-  // window.ethereum, something is overwriting it, perhaps another wallet.
-  
-  // Access the decentralized web!
+  let eth_provider = await detectEthereumProvider();
+  if(eth_provider != null && eth_provider == window.ethereum) {
+    console.log("Eth wallet avaliable!");
+    return true;
+  }
+  console.log("No compatible wallet found!");
+  return false;
+}
+
+export function onboard() {
+  const onboarding = new MetaMaskOnboarding();
+  onboarding.startOnboarding();
 }
 
 // For now, 'eth_accounts' will continue to always return an array

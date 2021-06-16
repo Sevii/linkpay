@@ -1,15 +1,15 @@
 import { Controller } from "stimulus"
-import { connect_accounts, startApp, pay } from '../metamask/index';
+import { connect_accounts, pay, onboard, walletCompatible } from '../metamask/index';
 import Rails from '@rails/ujs';
 
 export default class extends Controller {
-static targets = [ "connected", "orderStatus", "payButton", "connectButon", "orderButton", "results", "emailfield" ]
-static values = { metamaskConnected: Boolean, address: String, inovice: String, productprice: String}
+static targets = [ "connected", "install", "orderStatus", "payButton", "connectbutton", "orderButton", "results", "emailfield" ]
+static values = { metamaskconnected: Boolean, address: String, inovice: String, productprice: String}
 
   connect_metamask() {
-    this.metamaskConnectedValue = connect_accounts();
-    console.log("Connection Status: " + this.metamaskConnectedValue)
-    this.connectedTarget.hidden = this.metamaskConnectedValue; 
+    this.metamaskconnectedValue = connect_accounts();
+    console.log("Connection Status: " + this.metamaskconnectedValue)
+    this.connectedTarget.hidden = this.metamaskconnectedValue; 
   }
 
   pay_button() {
@@ -17,13 +17,14 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String, 
     this.payButtonTarget.disabled = true;
     console.log("inoviceId: " + this.inoviceValue);
 
-    if(this.emailfieldTarget.value.length < 5) {
+    let customerEmail = this.emailfieldTarget.value;
+    if(customerEmail == null || customerEmail === "" || customerEmail < 5) {
       this.orderStatusTarget.textContent = "Email not long enough";
       this.payButtonTarget.disabled = false;
-      return;
+      console.log("email: " + customerEmail);
+      return false;
     }
-    let customerEmail = this.emailfieldTarget.value;
-    console.log(customerEmail);
+
 
     return fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd")
     .then(response => response.json())
@@ -77,22 +78,43 @@ static values = { metamaskConnected: Boolean, address: String, inovice: String, 
     });
 }
 
-
+  onboard_meta(){
+    onboard();
+  }
 
   //The first time this controller connects to the DOM
       initialize() {
-        this.metamaskConnectedValue = false;
-        console.log(this.metamaskConnectedValue);
-        console.log(typeof this.metamaskConnectedValue);
-        startApp();
+
+        // startApp();
       }
 
-      // Anytime this controller connects to the DOM
+  // Anytime this controller connects to the DOM
       connect() {
-       this.connectedTarget.hidden = this.metamaskConnectedValue; 
+       this.connectedTarget.hidden = true;
        console.log("hello");
        console.log("address: " + this.addressValue);
+        this.metamaskconnectedValue = false;
 
+        walletCompatible().then(compatible => {
+          if(compatible) {
+            this.metamaskconnectedValue = true;
+            this.connectedTarget.hidden = false;
+            this.payButtonTarget.disabled = false;
+              this.connectbuttonTarget.disabled = false;
+            console.log("compatible: " + compatible);
+          }
+          else {
+              this.installTarget.hidden = false;
+              this.connectedTarget.hidden = true;
+              this.payButtonTarget.disabled = true;
+              this.connectbuttonTarget.disabled = true;
+              console.log("compatible: " + compatible);
+          }
+        });
+
+
+        console.log(this.metamaskconnectedValue);
+        console.log(typeof this.metamaskconnectedValue);
       }
 
       // Anytime this controller disconnects from the DOM

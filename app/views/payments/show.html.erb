@@ -18,23 +18,28 @@
 <hr class="my-4">
 <div class="h-5 p-2">
     <div >
-      <button class="btn btn-secondary btn-sm" data-action="click->meta#connect_metamask">Connect to Ethereum</button>
+      <button class="btn btn-secondary btn-sm" data-meta-target="connectbutton" data-action="click->meta#connect_metamask">Connect with Metamask Wallet</button>
     </div>
 
   <div>
-      <div hidden="true" data-meta-target="connected">Ethereum Avaliable &#9989;</div>
+      <div hidden="true" data-meta-metamaskconnected-value="false" data-meta-target="connected">Ethereum Avaliable &#9989;</div>
+  </div>
+
+    <div hidden="true"  data-meta-target="install">
+      <p>Looks like you don't have the Metamask wallet installed. Seviipay is in alpha and only supports the Metamask Wallet. Please install metamask to continue with your payment.</p>
+      <button data-action="click->meta#onboard_meta">Onboard to Metamask</button>
   </div>
 </div>
 
 <div class="h-5 p-2">
-    <form action=""  class="row row-cols-lg-auto g-3 align-items-center">
+    <div class="row row-cols-lg-auto g-3 align-items-center">
       <div class="col-12">
         <input class="form-control" data-meta-target="emailfield" type="email" name="email" placeholder="Your email address" id="sub_email">
       </div>
          <div class="col-12">
       <button class="btn btn-success" data-meta-target="payButton" data-action="click->meta#pay_button" type="submit" id="sub_btn">Pay with Ethereum</button><br>
     </div>
-    </form>
+    </div>
   <div>
       <div data-meta-target="orderStatus"></div>
   </div>
