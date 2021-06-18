@@ -13,7 +13,7 @@ static values = { metamaskconnected: Boolean, address: String, inovice: String, 
   }
 
   pay_button() {
-    console.log("Paying!!", this.element)
+    console.dir(this.element);
     this.payButtonTarget.disabled = true;
     console.log("inoviceId: " + this.inoviceValue);
 
@@ -70,6 +70,9 @@ static values = { metamaskconnected: Boolean, address: String, inovice: String, 
         // If this happens, the user rejected the connection request.
         this.payButtonTarget.disabled = false;
         this.orderStatusTarget.textContent="Payment Rejected";
+      } else if(err.code === -32602) {
+        this.payButtonTarget.disabled = false;
+        this.orderStatusTarget.textContent="Please connect with Metamask Wallet.";
       } else {
         console.error(err);
         this.payButtonTarget.disabled = false;
