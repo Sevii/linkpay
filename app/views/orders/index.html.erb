@@ -9,7 +9,7 @@
       <div class="p-2 bg-light border rounded-3">
         <p>Order Id# <%= order.id %> <%= link_to "Link", order_path(order.id), method: :get%></p>
         <p>Inovice # <%= order.inovice_id %> <%= link_to "Link", inovice_path(inovice.id), method: :get%></p>
-        <p> From: <%=order.customer_email%>
+        <p>From: <%=order.customer_email%>
         <p>Transaction hash<%= order.transaction_hash %></p>
         <% if Rails.env.development? %>
           <a href="https://ropsten.etherscan.io/tx/<%= order.transaction_hash %>">Ropsten Link</a>
