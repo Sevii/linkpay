@@ -9,7 +9,7 @@
       <div class="p-2 bg-light border rounded-3">
         <p><%= inovice.name %></p>
         <%= link_to "Inovice Details", inovice_path(inovice.id), method: :get%>
-        <p>$<%= @inovice.usd_price/100 %></p>
+        <p>$<%= inovice.usd_price/100 %></p>
         <p><%= inovice.ethereum_address %></p>
       </div>
     </li>
