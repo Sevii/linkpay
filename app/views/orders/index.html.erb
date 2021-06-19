@@ -1,8 +1,9 @@
-
+<%= render "shared/app_navbar" %>
 <h1>Welcome to sledgeworx orders page</h1>
 
 <ul>
-  <% @orders.each do |order| %>
+  <% @user.inovices.each do |inovice| %>
+  <% inovice.orders.each do |order| %>
     <li>
       <%= order.id %>
       <%= order.inovice_id %>
@@ -17,6 +18,7 @@
       
     </li>
   <% end %>
+  <%end%>
 </ul>
 
 

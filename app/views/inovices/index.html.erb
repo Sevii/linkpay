@@ -1,15 +1,17 @@
-
+<%= render "shared/app_navbar" %>
 <h1>Welcome to seviipay inovices page</h1>
 <p>See your inovices below</p>
 
 
 <ul>
   <% @inovices.each do |inovice| %>
-    <li>
-      <%= inovice.name %>
-      <%= inovice.price %>
-      <%= inovice.ethereum_address %>
-      <%= button_to "Pay", payment_path(inovice.id), method: :get%>
+    <li class="h-3">
+      <div class="p-2 bg-light border rounded-3">
+        <p><%= inovice.name %></p>
+        <p>$<%= inovice.usd_price %></p>
+        <p><%= inovice.ethereum_address %></p>
+        <%= button_to "Pay", payment_path(inovice.id), method: :get%>
+      </div>
     </li>
   <% end %>
 </ul>
