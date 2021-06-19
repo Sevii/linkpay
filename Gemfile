@@ -26,7 +26,8 @@ gem 'pg', '~>1.2'
 #Adds email support with postmark
 gem 'postmark-rails'
 
-
+#Adds User authentication/etc
+gem 'devise'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

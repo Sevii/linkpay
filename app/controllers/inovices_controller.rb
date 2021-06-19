@@ -1,6 +1,9 @@
 class InovicesController < ApplicationController
+  before_action :authenticate_user!
+
   def index
-    @inovices = Inovice.all
+    @user = current_user
+    @inovices =  @user.inovices
   end
   def show
     @inovice = Inovice.find(params[:id])
@@ -13,6 +16,7 @@ class InovicesController < ApplicationController
   def create
     @inovice = Inovice.new(inovice_params)
 
+    @inovice.user = current_user
     if @inovice.save
       redirect_to @inovice
     else
