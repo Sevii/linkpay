@@ -7,10 +7,8 @@ Rails.application.routes.draw do
   post 'pay/create', to: "payments#create", as: "create"
 
 
-  resources :inovices
+  resources :inovices, :orders
 
-  get'/orders', to: "orders#index"
-  get'/orders/:id', to: "orders#show"
 
   get '/', to: "home#index"
   get '/pricing', to: "home#pricing"
