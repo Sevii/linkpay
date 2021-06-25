@@ -1,26 +1,36 @@
 <%= render "shared/app_navbar" %>
 <h1>Welcome to sledgeworx orders page</h1>
 
-<ul>
+<div class="container">
   <% @user.inovices.each do |inovice| %>
   <% inovice.orders.each do |order| %>
 
-    <li>
-      <div class="p-2 bg-light border rounded-3">
-        <p>Order Id# <%= order.id %> <%= link_to "Link", order_path(order.id), method: :get%></p>
-        <p>Inovice # <%= order.inovice_id %> <%= link_to "Link", inovice_path(inovice.id), method: :get%></p>
-        <p>From: <%=order.customer_email%>
-        <p>Transaction hash<%= order.transaction_hash %></p>
+    <div class="row border rounded-3 bg-light ">
+
+    <div class="col-sm">
+      Order# <%= link_to(order.id, order_path(order.id), method: :get)%>     Inovice# <%= link_to( inovice.id, inovice_path(inovice.id), method: :get)%>
+      <div>
         <% if Rails.env.development? %>
           <a href="https://ropsten.etherscan.io/tx/<%= order.transaction_hash %>">Ropsten Link</a>
         <% else %>
           <a href="https://etherscan.io/tx/<%= order.transaction_hash %>">Transaction</a>
         <% end %>
-
       </div>
-    </li>
+    </div>
+
+    <div class="col-sm">
+      From: <%=order.customer_email%>
+      <p>Date: <%= order.created_at %>
+    </div>
+    <div class="col-sm">
+      ETH amount: <%= order.currency_amount / BigDecimal('10e18') %>
+      <p>USD: $<%=(inovice.usd_price * 0.01)%></p>
+    </div>
+
+
+    </div>
   <% end %>
   <%end%>
-</ul>
+</div>
 
 
