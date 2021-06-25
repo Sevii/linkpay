@@ -1,10 +1,12 @@
 class OrderPlacedMailer < ApplicationMailer
-    def hello_email
-    mail(
-      :subject => 'Hello from Postmark',
-      :to  => 'nick@sledgeworx.io.com',
-      :html_body => 'HTML body goes here',
-      :track_opens => 'true')
+    def order_confirmation_email
+        @inovice = params[:inovice]
+        @order = params[:order]
+          mail(
+            to: email_address_with_name(@order.customer_email, @inovice.seller_name),
+            :from => 'payments@www.seviipay.com',
+            :subject => 'Order confirmation for @inovice.name'
+          )
     end
 
     def order_placed_email

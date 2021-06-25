@@ -3,4 +3,7 @@ class OrderPlacedMailerPreview < ActionMailer::Preview
   def order_placed_email
     OrderPlacedMailer.with(order: Order.first, inovice: Inovice.first).order_placed_email
   end
+  def order_confirmation_email
+    OrderPlacedMailer.with(order: Order.first, inovice: Inovice.first).order_confirmation_email
+  end
 end
