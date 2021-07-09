@@ -5,7 +5,7 @@ class OrderPlacedMailer < ApplicationMailer
           mail(
             to: email_address_with_name(@order.customer_email, @inovice.seller_name),
             :from => 'payments@www.seviipay.com',
-            :subject => 'Order confirmation for @inovice.name'
+            :subject => 'Order confirmation for ' + @inovice.name
           )
     end
 
