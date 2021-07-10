@@ -62,6 +62,12 @@ export function connect_accounts() {
 }
 
 export async function pay(address, usdt_price, product_price) {
+    
+    let connectedResult = await ethereum.request({ method: 'eth_requestAccounts' })
+    console.log("connectedResult");
+    console.dir(connectedResult);
+    currentAccount = connectedResult[0];
+
     if(address.length != 42) {
       new err("Invalid Address");
     }

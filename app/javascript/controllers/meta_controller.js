@@ -3,13 +3,12 @@ import { connect_accounts, pay, onboard, walletCompatible } from '../metamask/in
 import Rails from '@rails/ujs';
 
 export default class extends Controller {
-static targets = [ "connected", "install", "orderStatus", "payButton", "connectbutton", "orderButton", "results", "emailfield" ]
+static targets = [ "install", "orderStatus", "payButton", "orderButton", "results", "emailfield", "paymentform" ]
 static values = { metamaskconnected: Boolean, address: String, inovice: String, productprice: String}
 
   connect_metamask() {
     this.metamaskconnectedValue = connect_accounts();
     console.log("Connection Status: " + this.metamaskconnectedValue)
-    this.connectedTarget.hidden = this.metamaskconnectedValue; 
   }
 
   pay_button() {
@@ -93,7 +92,6 @@ static values = { metamaskconnected: Boolean, address: String, inovice: String, 
 
   // Anytime this controller connects to the DOM
       connect() {
-       this.connectedTarget.hidden = true;
        console.log("hello");
        console.log("address: " + this.addressValue);
         this.metamaskconnectedValue = false;
@@ -101,16 +99,13 @@ static values = { metamaskconnected: Boolean, address: String, inovice: String, 
         walletCompatible().then(compatible => {
           if(compatible) {
             this.metamaskconnectedValue = true;
-            this.connectedTarget.hidden = false;
             this.payButtonTarget.disabled = false;
-              this.connectbuttonTarget.disabled = false;
             console.log("compatible: " + compatible);
           }
           else {
               this.installTarget.hidden = false;
-              this.connectedTarget.hidden = true;
+              this.paymentformTarget.hidden = true;
               this.payButtonTarget.disabled = true;
-              this.connectbuttonTarget.disabled = true;
               console.log("compatible: " + compatible);
           }
         });
