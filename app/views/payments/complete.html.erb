@@ -1,14 +1,38 @@
-<h2> Payment submitted</h2>
-  <div>
-    <h3>Product: <%=@inovice.name %></h1>
 
-    <p> Eth Amount <%= @order.currency_amount / BigDecimal('10e18') %>
-    <p> Price in wei: <%=(  @order.currency_amount )%></p>
-
-    <p> Price in Dollars: $<%=( @inovice.usd_price * 0.01)%></p>
-    <p> Paid to <b><%= @inovice.seller_name %> </b></p>
-    <p> Ethereum Address: <b><%= @inovice.ethereum_address %> </b></p>
-    
-    <p>ETH/USD Pair when placed: $<%= @order.currency_to_usd * 0.01%></p>
+<div class="container border text-center" data-controller="meta" data-meta-productprice-value=<%= @inovice.usd_price %> data-meta-address-value="<%= @inovice.ethereum_address %>" data-meta-inovice-value="<%= @inovice.id %>" >
+  <div class="row">
+    <h4>Payment completed via Seviipay</h4>
+    <hr class="my-4">
   </div>
 
+<div class="row">
+  <div class="col">
+    <div class="p-2 rounded-3">
+      <% if @inovice.user.logo.attached? %>
+        <%= image_tag @inovice.user.logo, alt: "…", width: "100", height: "100" %>
+       <% end %>
+      <h4><b><%=@inovice.seller_name %></b></h4>
+      
+    </div>
+  </div>
+</div>
+<hr class="my-4"/>
+<div class="row">
+  <div class="col">
+    <% if @inovice.product_image.attached? %>
+      <%= image_tag(@inovice.product_image, width: "150", height: "150") %>
+    <% end %>
+    <p><%=@inovice.name %></p>
+
+  </div>
+
+  <div class="row">
+      <p><b>$<%=( @inovice.usd_price * 0.01)%></b></p>
+      <p> Ethereum Amount <b><%= @order.currency_amount / BigDecimal('10e18') %></b>
+      <p> Price in wei: <%=(  @order.currency_amount )%></p>
+      <p> Ethereum Address: <b><%= @inovice.ethereum_address %> </b></p>
+      <p>ETH/USD Pair when placed: $<%= @order.currency_to_usd * 0.01%></p>
+    </div>
+  </div>
+
+</div>
