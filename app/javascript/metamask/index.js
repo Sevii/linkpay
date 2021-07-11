@@ -29,38 +29,6 @@ export function onboard() {
   onboarding.startOnboarding();
 }
 
-// For now, 'eth_accounts' will continue to always return an array
-export function handleAccountsChanged(accounts) {
-  if (accounts.length === 0) {
-    // MetaMask is locked or the user has not connected any accounts
-    console.log('Please connect to MetaMask. 1');
-  } else if (accounts[0] !== null) {
-    currentAccount = accounts[0];
-    // alert("Connected to MetaMask!");
-    return true;
-    // Do any other work!
-  }
-}
-
-// While you are awaiting the call to eth_requestAccounts, you should disable
-// any buttons the user can click to initiate the request.
-// MetaMask will reject any additional requests while the first is still
-// pending.
-export function connect_accounts() {
-  ethereum
-    .request({ method: 'eth_requestAccounts' })
-    .then(handleAccountsChanged)
-    .catch((err) => {
-      if (err.code === 4001) {
-        // EIP-1193 userRejectedRequest error
-        // If this happens, the user rejected the connection request.
-        console.log('Please connect to MetaMask. 2', err);
-      } else {
-        console.error(err);
-      }
-    });
-}
-
 export async function pay(address, usdt_price, product_price) {
     
     let connectedResult = await ethereum.request({ method: 'eth_requestAccounts' })

@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :inovices
+  has_many :inovices, :dependent => :destroy
   has_one_attached :logo
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

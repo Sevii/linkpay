@@ -6,11 +6,6 @@ export default class extends Controller {
 static targets = [ "install", "orderStatus", "payButton", "orderButton", "results", "emailfield", "paymentform" ]
 static values = { metamaskconnected: Boolean, address: String, inovice: String, productprice: String}
 
-  connect_metamask() {
-    this.metamaskconnectedValue = connect_accounts();
-    console.log("Connection Status: " + this.metamaskconnectedValue)
-  }
-
   pay_button() {
     console.dir(this.element);
     this.payButtonTarget.disabled = true;
