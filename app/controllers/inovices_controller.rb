@@ -4,6 +4,7 @@ class InovicesController < ApplicationController
   def index
     @user = current_user
     @inovices =  @user.inovices
+    print @user
   end
   def show
     @inovice = Inovice.find(params[:id])
@@ -25,6 +26,6 @@ class InovicesController < ApplicationController
   end
   private
     def inovice_params
-      params.require(:inovice).permit(:name, :ethereum_address, :usd_price, :owner_email, :seller_name)
+      params.require(:inovice).permit(:name, :ethereum_address, :usd_price, :owner_email, :seller_name, :product_image)
     end
 end

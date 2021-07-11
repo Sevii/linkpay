@@ -26,6 +26,10 @@ gem 'pg', '~>1.2'
 #Adds email support with postmark
 gem 'postmark-rails'
 
+gem "aws-sdk-s3", require: false
+
+gem "mini_magick"
+
 #Adds User authentication/etc
 gem 'devise'
 # Use Active Storage variant

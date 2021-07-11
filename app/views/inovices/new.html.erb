@@ -27,6 +27,16 @@
     <%= form.text_field :seller_name %>
   </div>
 
+   <div data-controller="image-preview">
+      <%= image_tag("preview.png", :class => "my-3", :width => "100px", :hight => "100px", 
+      data: { target: "image-preview.output" }) %>
+    
+      <div class="my-2">
+        <%= form.label :logo %> Upload a product logo<br>
+        <%= form.file_field :product_image, :class => "form-control-file photo_upload", 
+        data: {target: "image-preview.input", action: "image-preview#readURL" } %>
+      </div>    
+    </div>
 
 
   <% @inovice.errors.full_messages_for(:ethereum_address).each do |message| %>

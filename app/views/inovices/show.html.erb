@@ -3,6 +3,9 @@
 
 
   <div >
+    <% if @inovice.product_image.attached? %>
+      <%= image_tag(@inovice.product_image, width: "150", height: "150") %>
+    <% end %>
     <h1> Product: <%=@inovice.name %></h1>
     <p> Price in Dollars: $<%= @inovice.usd_price/100 %></p>
     <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>

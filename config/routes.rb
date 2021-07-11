@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+        sessions: 'users/sessions',
+        registrations: 'users/registrations'
+      }
+      
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get '/pay/:id', to: "payments#show", as: 'payment'
   get '/pay/button/:id', to: "payments#button", as: 'button'
@@ -12,4 +16,6 @@ Rails.application.routes.draw do
 
   get '/', to: "home#index"
   get '/pricing', to: "home#pricing"
+
+      
 end

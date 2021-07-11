@@ -2,6 +2,9 @@
 <h1>Welcome to seviipay inovices page</h1>
 <p>See your inovices below</p>
 
+<% if @user.logo.attached? %>
+  <%= image_tag @user.logo, alt: "…", width: "100", height: "100" %>
+<% end %>
 
 <ul>
   <% @inovices.each do |inovice| %>
