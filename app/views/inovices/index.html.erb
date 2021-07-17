@@ -4,21 +4,61 @@
 
 <p><%= link_to "Create new inovice", new_inovice_path %></p>
 
-<% if @user.logo.attached? %>
-  <%= image_tag @user.logo, alt: "…", width: "100", height: "100" %>
-<% end %>
 
-<ul>
-  <% @inovices.each do |inovice| %>
-    <li class="h-3">
-      <div class="p-2 bg-light border rounded-3">
-        <p><%= inovice.name %></p>
-        <%= link_to "Inovice Details", inovice_path(inovice.id), method: :get%>
-        <p>$<%= inovice.usd_price/100 %></p>
-        <p><%= inovice.ethereum_address %></p>
+  <div class="border rounded-3 bg-light">
+    <div class="row">
+      <div class="col">
+      Inovice Name
       </div>
-    </li>
-  <% end %>
-</ul>
+      <div class="col">
+      Price (USD)
+      </div>
+      <div class="col">
+      Brand Logo
+      </div>
+      <div class="col">
+      Product Logo
+      </div>
+      <div class="col">
+      Inovice Link
+      </div>
+      <div class="col-4">
+      Ethereum Address
+      </div>
 
+    </div>
+    <hr/>
+  <% @user.inovices.each do |inovice| %>
+    <div class="row">
+
+      <div class="col">
+
+        <%= inovice.name %>
+      </div>
+      <div class="col">
+        $<%= inovice.usd_price/100%>
+      </div>
+      <div class="col">
+         <% if inovice.user.logo.attached? %>
+          <%= image_tag inovice.user.logo, alt: "…", width: "100", height: "100" %>
+         <% end %>
+      </div>
+
+      <div class="col">
+         <% if inovice.product_image.attached? %>
+        <%= image_tag(inovice.product_image, width: "100", height: "100") %>
+      <% end %>
+      </div>
+
+      <div class="col" > 
+          <%= link_to(inovice.id, inovice_path(inovice.id), method: :get)%>
+      </div>
+
+      <div class="col-4">
+        <%= inovice.ethereum_address %>
+      </div>
+    </div>
+     
+  <%end%>
+      </div>
 
