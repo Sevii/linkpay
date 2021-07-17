@@ -1,9 +1,7 @@
 <%= render "shared/app_navbar" %>
 <h1>Inovices</h1>
 
-
 <p><%= link_to "Create new inovice", new_inovice_path %></p>
-
 
   <div class="border rounded-3 bg-light">
     <div class="row">
@@ -51,7 +49,7 @@
       </div>
 
       <div class="col" > 
-          <%= link_to(inovice.id, inovice_path(inovice.id), method: :get)%>
+          <%= link_to(inovice.id, payment_path(inovice.id), method: :get)%>
       </div>
 
       <div class="col-4">
