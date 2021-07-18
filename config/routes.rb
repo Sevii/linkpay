@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
 
   get '/', to: "home#index"
-  get '/pricing', to: "home#pricing"
+  # get '/pricing', to: "home#pricing"
   get '/demo', to: "home#demo"
       
 end
