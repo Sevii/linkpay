@@ -1,4 +1,5 @@
 <%= render "shared/app_navbar" %>
+<div class ="container">
 <h1>Inovice Details</h1>
 
 
@@ -9,22 +10,47 @@
     <h1> Product: <%=@inovice.name %></h1>
     <p> Price in Dollars: $<%= @inovice.usd_price/100 %></p>
     <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
-  </div>
+    <p> Created at <%= @inovice.created_at %></p>
+    <p> Seller Name: <%= @inovice.seller_name %> </p>
+    <p> Seller Email: <%= @inovice.owner_email %> </p>
 
+  </div>
+</div>
+
+<div class="container border rounded-3 bg-light my-4">
+  <p>Example HTML for this inovice</p>
+  &lt;form action="https://www.seviipay.com/pay/<%=@inovice.id%>" class="inline"&gt;
+      &lt;button class="float-left submit-button"&gt;Pay with Ethereum&lt;/button&gt;
+  &lt;/form&gt;
+</div>
+
+<div class="container">
+  <p> Orders for this Inovice</p>
 <% @inovice.orders.each do |order| %>
-      <div class="p-2 bg-light border rounded-3">
-        <p>Order Id# <%= order.id %></p>
-        <p>Inovice # <%= order.inovice_id %></p>
-        <p><%= order.transaction_hash %></p>
+
+    <div class="row border rounded-3 bg-light ">
+
+    <div class="col-sm">
+      Order# <%= link_to(order.id, order_path(order.id), method: :get)%>     Inovice# <%= link_to( @inovice.id, inovice_path(@inovice.id), method: :get)%>
+      <div>
         <% if Rails.env.development? %>
           <a href="https://ropsten.etherscan.io/tx/<%= order.transaction_hash %>">Ropsten Link</a>
         <% else %>
           <a href="https://etherscan.io/tx/<%= order.transaction_hash %>">Transaction</a>
         <% end %>
       </div>
-  <% end %>
+    </div>
 
-<p>Example HTML for this inovice</p>
-&lt;form action="https://www.seviipay.com/pay/<%=@inovice.id%>" class="inline"&gt;
-    &lt;button class="float-left submit-button"&gt;Pay with Ethereum&lt;/button&gt;
-&lt;/form&gt;
+    <div class="col-sm">
+      From: <%=order.customer_email%>
+      <p>Date: <%= order.created_at %>
+    </div>
+    <div class="col-sm">
+      ETH amount: <%= order.currency_amount / BigDecimal('10e18') %>
+      <p>USD: $<%=(@inovice.usd_price * 0.01)%></p>
+    </div>
+
+
+    </div>
+  <% end %>
+</div>
