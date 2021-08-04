@@ -2,9 +2,9 @@ Order Placed for <%= @inovice.name %>
 ===============================================
 
 Order Id# <%= @order.id %>
-Inovice# <%= @order.inovice_id %></p>
-Transaction hash: <%= @order.transaction_hash %></p>
-Customer Email: <%= @order.customer_email %></p>
+Inovice# <%= @order.inovice_id %>
+Transaction hash: <%= @order.transaction_hash %>
+Customer Email: <%= @order.customer_email %>
 <% if Rails.env.development? %>
 DEVELOPMENT EMAIL
 https://ropsten.etherscan.io/tx/<%= @order.transaction_hash %>">Ropsten Link

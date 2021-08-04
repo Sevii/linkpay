@@ -1,11 +1,12 @@
 Order confirmation for <%= @inovice.name %>
 ===============================================
 
-Order Id# <%= @order.id %>
-Inovice# <%= @order.inovice_id %></p>
-Transaction hash: <%= @order.transaction_hash %></p>
-Customer Email: <%= @order.customer_email %></p>
-Sold by <%= @inovice.seller_name %>
+Price in Dollars: $<%=( @inovice.usd_price * 0.01)%>
+ETH/USD Pair when placed: <%= @order.currency_to_usd * 0.01%>
+
+Transaction hash: <%= @order.transaction_hash %>
+Customer Email: <%= @order.customer_email %>
+Seller Name <%= @inovice.seller_name %>
 <% if Rails.env.development? %>
 DEVELOPMENT EMAIL
 https://ropsten.etherscan.io/tx/<%= @order.transaction_hash %>">Ropsten Link
@@ -17,3 +18,7 @@ Eth Amount <%= @order.currency_amount / BigDecimal('10e18') %>
 Wei Amount: <%= @order.currency_amount %>
 Price in Dollars: $<%=( @inovice.usd_price * 0.01)%>
 ETH/USD Pair when placed: <%= @order.currency_to_usd * 0.01%>
+
+
+Order Id# <%= @order.id %>
+Inovice# <%= @order.inovice_id %>
