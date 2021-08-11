@@ -4,11 +4,16 @@
 import detectEthereumProvider from '@metamask/detect-provider';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import BigNumber from "bignumber.js";
-var currentAccount = {};
+
+var currentAccount = "";
+var walletConnectProvider = null;
+
+import WalletConnect from "@walletconnect/client";
+import QRCodeModal from "@walletconnect/qrcode-modal";
 
 
 export async function walletCompatible() {
-  console.log("wallet compatible!");
+
   let metamaskInstalled = MetaMaskOnboarding.isMetaMaskInstalled();
   if(metamaskInstalled) {
     console.log("Metamask installed!");
@@ -20,8 +25,72 @@ export async function walletCompatible() {
     console.log("Eth wallet avaliable!");
     return true;
   }
+
+  //Wallet connect
+  walletConnectProvider = await walletConnect();
+  if(walletConnectProvider != null) {
+    console.log("WalletConnected");
+    return true;
+  }
+
+
   console.log("No compatible wallet found!");
   return false;
+}
+
+async function walletConnect() {
+  let storedWalletConnectJSON = await window.localStorage.getItem("walletconnect");
+  let storedWalletConnect = JSON.parse(storedWalletConnectJSON);
+  console.log(storedWalletConnect);
+
+  if(storedWalletConnect != null && (typeof storedWalletConnect !== 'undefined')) {
+    console.log("Found a stored wallet connect");
+    console.log("Accounts: + " + storedWalletConnect.accounts);
+    currentAccount = storedWalletConnect.accounts[0];
+  }
+
+  // Create a connector
+  const connector = new WalletConnect({
+    bridge: "https://bridge.walletconnect.org", // Required
+    qrcodeModal: QRCodeModal,
+  });
+
+  // Check if connection is already established
+  if (!connector.connected) {
+    // create new session
+    connector.createSession();
+  }
+
+  // Subscribe to connection events
+  connector.on("connect", (error, payload) => {
+    if (error) {
+      throw error;
+    }
+
+    // Get provided accounts and chainId
+    const { accounts, chainId } = payload.params[0];
+    currentAccount = accounts[0];
+  });
+
+  connector.on("session_update", (error, payload) => {
+    if (error) {
+      throw error;
+    }
+
+    // Get updated accounts and chainId
+    const { accounts, chainId } = payload.params[0];
+    currentAccount = accounts[0];
+  });
+
+  connector.on("disconnect", (error, payload) => {
+    if (error) {
+      throw error;
+    }
+
+    // Delete connector
+    connector = null;
+  });
+  return connector;
 }
 
 export function onboard() {
@@ -29,18 +98,76 @@ export function onboard() {
   onboarding.startOnboarding();
 }
 
-export async function pay(address, usdt_price, product_price) {
-    
-    let connectedResult = await ethereum.request({ method: 'eth_requestAccounts' })
-    console.log("connectedResult");
-    console.dir(connectedResult);
-    currentAccount = connectedResult[0];
+async function payWalletConnect(toAddress, gweiAmount, usdt_price_bn) {
+  let fromAddress = currentAccount;
+  console.log("FromAddress: " + fromAddress);
+  const tx = {
+    from: fromAddress, // Required
+    to: toAddress, // Required (for non contract deployments)
+    data: "0x", // Required
+    value: gweiAmount.toString(16), // Optional
+    nonce: "0x00", // Optional
+  };
 
-    if(address.length != 42) {
+
+  let txHash = await walletConnectProvider.sendTransaction(tx);
+  console.log(txHash);
+
+  let orderPlaced = {
+          transaction_hash: txHash,
+          currency_to_usd: usdt_price_bn.integerValue(),
+          currency_amount: gweiAmount.toFixed()
+        }
+
+  console.log(orderPlaced);
+  return orderPlaced;
+}
+
+async function payMetamask(toAddress, gweiAmount, usdt_price_bn) {
+  let connectedResult = await ethereum.request({ method: 'eth_requestAccounts' })
+  console.log("connectedResult");
+  console.dir(connectedResult);
+  currentAccount = connectedResult[0];
+  let fromAddress = ethereum.selectedAddress;
+  console.log("FromAddress: " + fromAddress);
+  // let weiValue = ethers.utils.parseEther(eth_amount_bn.toFixed());
+  // console.log("wei value: " + weiValue);
+  const transactionParameters = {
+    nonce: '0x00', // ignored by MetaMask
+    // gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
+    // gas: '0x2710', // customizable by user during MetaMask confirmation.
+    to: toAddress, // Required except during contract publications.
+    from: fromAddress, // must match user's active address.
+    value:  gweiAmount.toString(16), // Amount of wei to send, must be in hex for large numbers
+    data: '', // Optional, but used for defining smart contract creation and interaction.
+    chainId: '0x1', // 0x3 is Ropstein test network Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+  };
+
+  console.log(transactionParameters);
+  // txHash is a hex string
+  // As with any RPC call, it may throw an error
+  const txHash = await ethereum.request({
+    method: 'eth_sendTransaction',
+    params: [transactionParameters],
+  });
+
+  let orderPlaced = {
+          transaction_hash: txHash,
+          currency_to_usd: usdt_price_bn.integerValue(),
+          currency_amount: gweiAmount.toFixed()
+        }
+
+  console.log(orderPlaced);
+  return orderPlaced;
+
+}
+
+export async function pay(toAddress, usdt_price, product_price) {
+    if(toAddress.length != 42) {
       new err("Invalid Address");
     }
     console.log("Pay method");
-    console.log(address);
+    console.log(toAddress);
     console.log("Eth/usdt: " + usdt_price);
     //2625.31000000
 
@@ -57,47 +184,22 @@ export async function pay(address, usdt_price, product_price) {
     console.log("usdt_price_bn: " + usdt_price_bn.toFixed());
     console.log("product_price_bn: " + product_price_bn.toFixed());
 
+  
 
     let currencyValue = eth_amount_bn.toFixed(); 
     console.log("Amount in eth: " + currencyValue);
 
     // Convert eth fraction to wei 1ETH = 10^18 wei 
     // gwei cannot be fractional so we convert to an integer
-    let gweiValue = eth_amount_bn.times(new BigNumber("1000000000000000000")).integerValue();
+    let gweiAmount = eth_amount_bn.times(new BigNumber("1000000000000000000")).integerValue();
 
-    console.log("Amount in gwei: " + gweiValue.toFixed());
+    console.log("Amount in gwei: " + gweiAmount.toFixed());
 
-    // let weiValue = ethers.utils.parseEther(eth_amount_bn.toFixed());
-    // console.log("wei value: " + weiValue);
-    const transactionParameters = {
-    nonce: '0x00', // ignored by MetaMask
-    // gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
-    // gas: '0x2710', // customizable by user during MetaMask confirmation.
-    to: address, // Required except during contract publications.
-    from: ethereum.selectedAddress, // must match user's active address.
-    value:  gweiValue.toString(16), // Amount of wei to send, must be in hex for large numbers
-    data: '', // Optional, but used for defining smart contract creation and interaction.
-    chainId: '0x1', // 0x3 is Ropstein test network Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
-  };
-  console.log(transactionParameters);
-  // txHash is a hex string
-  // As with any RPC call, it may throw an error
-  const txHash = await ethereum.request({
-    method: 'eth_sendTransaction',
-    params: [transactionParameters],
-  });
-
-  let orderPlaced = {
-          transaction_hash: txHash,
-          currency_to_usd: usdt_price_bn.integerValue(),
-          currency_amount: gweiValue.toFixed()
-        }
-
-  console.log(orderPlaced);
-  return orderPlaced;
+    if(walletConnectProvider != null) {
+      return payWalletConnect(toAddress, gweiAmount, usdt_price_bn);
+    } else {
+      return payMetamask(toAddress, gweiAmount, usdt_price_bn);
+    }
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
