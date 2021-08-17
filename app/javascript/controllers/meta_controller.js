@@ -36,8 +36,10 @@ static values = { metamaskconnected: Boolean, address: String, inovice: String, 
           inovice_id: this.inoviceValue,
           currency_to_usd: orderDetails.currency_to_usd,
           currency_amount: orderDetails.currency_amount,
-          customer_email: customerEmail
+          customer_email: customerEmail,
+          account: orderDetails.customer_account
         }
+        
         console.log("orderData");
         console.log(orderData);
   

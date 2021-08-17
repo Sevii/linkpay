@@ -116,7 +116,8 @@ async function payWalletConnect(toAddress, gweiAmount, usdt_price_bn) {
   let orderPlaced = {
           transaction_hash: txHash,
           currency_to_usd: usdt_price_bn.integerValue(),
-          currency_amount: gweiAmount.toFixed()
+          currency_amount: gweiAmount.toFixed(),
+          customer_account: fromAddress
         }
 
   console.log(orderPlaced);
@@ -154,7 +155,8 @@ async function payMetamask(toAddress, gweiAmount, usdt_price_bn) {
   let orderPlaced = {
           transaction_hash: txHash,
           currency_to_usd: usdt_price_bn.integerValue(),
-          currency_amount: gweiAmount.toFixed()
+          currency_amount: gweiAmount.toFixed(),
+          customer_account: fromAddress
         }
 
   console.log(orderPlaced);
