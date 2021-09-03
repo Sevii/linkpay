@@ -7,8 +7,12 @@ class ZapierController < ApplicationController
     end
 
     def payment_recieved
-  
-
-        render :json => [current_user.orders.last].to_json
+        
+        order = current_user.orders.last
+        unless order.nil?
+            render :json => [order].to_json
+        else 
+            render :json [].to_json
+        end
     end
 end
