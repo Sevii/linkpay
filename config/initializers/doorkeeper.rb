@@ -19,9 +19,9 @@ Doorkeeper.configure do
   # every time somebody will try to access the admin web interface.
   #
 
-  admin_authenticator do |_routes|
-    current_user || warden.authenticate!(scope: :user)
-  end
+  # admin_authenticator do |_routes|
+  #   current_user || warden.authenticate!(scope: :user)
+  # end
 
   # admin_authenticator do
   #   # Put your admin authentication logic here.
