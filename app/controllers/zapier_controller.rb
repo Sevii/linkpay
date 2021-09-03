@@ -8,6 +8,6 @@ class ZapierController < ApplicationController
 
     def payment_recieved
         latest = Order.last
-        render :json => latest.to_json
+        render :json => [latest].to_json
     end
 end
