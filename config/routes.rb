@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  use_doorkeeper
+  
   devise_for :users, controllers: {
         sessions: 'users/sessions',
         registrations: 'users/registrations'
@@ -10,9 +12,7 @@ Rails.application.routes.draw do
   get '/pay/complete/:id', to: "payments#complete", as: 'complete'
   post 'pay/create', to: "payments#create", as: "create"
 
-
   resources :inovices, :orders
-
 
   get '/', to: "home#index"
   # get '/pricing', to: "home#pricing"
