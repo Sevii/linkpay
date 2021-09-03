@@ -19,5 +19,6 @@ Rails.application.routes.draw do
   get '/demo', to: "home#demo"
 
   get '/test', to: "zapier#test"
+  get '/payment_recieved', to: "zapier#payment_recieved"
       
 end
