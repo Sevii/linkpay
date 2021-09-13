@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/', to: "home#index"
   # get '/pricing', to: "home#pricing"
   get '/demo', to: "home#demo"
+  get '/docs', to:"home#docs"
 
   get '/test', to: "zapier#test"
   get '/payment_recieved', to: "zapier#payment_recieved"

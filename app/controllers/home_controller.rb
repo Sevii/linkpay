@@ -5,4 +5,6 @@ class HomeController < ApplicationController
     end
     def demo
     end
+    def docs
+    end
 end
