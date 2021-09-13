@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   # get '/pricing', to: "home#pricing"
   get '/demo', to: "home#demo"
   get '/docs', to:"home#docs"
+  get '/privacy', to:"home#privacy"
+  get '/tos', to:"home#tos"
 
   get '/test', to: "zapier#test"
   get '/payment_recieved', to: "zapier#payment_recieved"
