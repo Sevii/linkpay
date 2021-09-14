@@ -5,12 +5,12 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import BigNumber from "bignumber.js";
 
-var currentAccount = "";
-var walletConnectProvider = null;
 
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
 
+var currentAccount = "";
+var walletConnectProvider = null;
 
 export async function walletCompatible() {
 

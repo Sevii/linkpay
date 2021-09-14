@@ -2,6 +2,7 @@ import { Controller } from "stimulus"
 import { connect_accounts, pay, onboard, walletCompatible } from '../metamask/index';
 import Rails from '@rails/ujs';
 
+
 export default class extends Controller {
 static targets = [ "install", "orderStatus", "payButton", "orderButton", "results", "emailfield", "paymentform" ]
 static values = { metamaskconnected: Boolean, address: String, inovice: String, productprice: String}
