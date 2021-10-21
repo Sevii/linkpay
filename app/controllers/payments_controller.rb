@@ -30,6 +30,6 @@ class PaymentsController < ApplicationController
   end
   private
     def order_params
-      params.permit(:transaction_hash, :inovice_id, :currency_amount, :currency_to_usd, :customer_email, :account)
+      params.permit(:transaction_hash, :inovice_id, :currency_amount, :currency_to_usd, :customer_email, :account, :currency)
     end
 end

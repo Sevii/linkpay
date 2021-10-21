@@ -1,9 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  price: 1
+  id: 0
+  name: "Inovice First"
+  usd_price: 100
+  ethereum_address: 0xe43e183d57BC3Ec9cE5e1509F4d91B8b36E3B5d1
+  user_id: 0
+  owner_email: "nick@sledgeworx.io"
+  seller_name: "Sledgeworx Software"
 
 two:
-  name: MyString
-  price: 1
+  id: 1
+  name: "Inovice Second"
+  usd_price: 100
+  user_id: 1
+  ethereum_address: 0xe43e183d57BC3Ec9cE5e1509F4d91B8b36E3B5d1
+  owner_email: "nick@sledgeworx.io"
+  seller_name: "Sledgeworx Software"

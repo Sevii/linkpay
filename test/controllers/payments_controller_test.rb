@@ -2,7 +2,7 @@ require "test_helper"
 
 class PaymentsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get payments_index_url
+    get payment_url 1
     assert_response :success
   end
 end

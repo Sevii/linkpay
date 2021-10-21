@@ -23,6 +23,9 @@ gem 'jbuilder', '~> 2.7'
 
 gem 'pg', '~>1.2'
 
+# added for test support 
+gem 'rexml', '~> 3.2', '>= 3.2.5'
+
 #Adds email support with postmark
 gem 'postmark-rails'
 
