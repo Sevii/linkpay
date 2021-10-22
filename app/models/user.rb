@@ -17,4 +17,7 @@ class User < ApplicationRecord
            class_name: 'Doorkeeper::AccessToken',
            foreign_key: :resource_owner_id,
            dependent: :delete_all # or :destroy if you need callbacks       
+
+
+  validates :ethereum_address, length: { minimum: 42, maximum: 42 }, allow_blank: true
 end

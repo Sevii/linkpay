@@ -12,6 +12,8 @@ static values = { metamaskconnected: Boolean, address: String, inovice: String, 
 
   pay_bitcoin_button() {
     this.payBitcoinButtonTarget.disabled = true;
+
+    
     console.log("Bitcoin payment");
   }
 

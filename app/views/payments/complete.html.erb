@@ -30,7 +30,7 @@
       <p><b>$<%=( @inovice.usd_price * 0.01)%></b></p>
       <p> Ethereum Amount <b><%= @order.currency_amount / BigDecimal('10e18') %></b>
       <p> Price in wei: <%=(  @order.currency_amount )%></p>
-      <p> Ethereum Address: <b><%= @inovice.ethereum_address %> </b></p>
+      <p> Ethereum Address: <b><%= @inovice.user.ethereum_address %> </b></p>
       <p>ETH/USD Pair when placed: $<%= @order.currency_to_usd * 0.01%></p>
     </div>
   </div>

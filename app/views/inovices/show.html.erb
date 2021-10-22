@@ -9,7 +9,7 @@
     <% end %>
     <h1> Product: <%=@inovice.name %></h1>
     <p> Price in Dollars: $<%= @inovice.usd_price/100 %></p>
-    <p> Pay to <b><%= @inovice.ethereum_address %> </b></p>
+    <p> Pay to <b><%= @inovice.user.ethereum_address %> </b></p>
     <p> Created at <%= @inovice.created_at %></p>
     <p> Seller Name: <%= @inovice.seller_name %> </p>
     <p> Seller Email: <%= @inovice.owner_email %> </p>
