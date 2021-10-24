@@ -1,18 +1,77 @@
 import { Controller } from "stimulus"
-import { connect_accounts, pay, onboard, walletCompatible } from '../metamask/index';
+import { connect_accounts, pay, onboard, walletCompatible, pay_bitcoin_qr } from '../metamask/index';
 import Rails from '@rails/ujs';
 
 import Web3 from 'web3';
+
+import QRCode from 'qrcode'
+
 const web3 = new Web3('ws://localhost:8546');
 
 export default class extends Controller {
-static targets = [ "install", "orderStatus", "payEthereumButton","payBitcoinButton", "orderButton", "results", "emailfield", "paymentform", "bitcoinQRCode" ]
+static targets = [ "install", "orderStatus", "payEthereumButton","payBitcoinButton", "orderButton", "results", "emailfield", "paymentform", "bitcoinQRCode", "qrCanvas" ]
 static values = { metamaskconnected: Boolean, address: String, inovice: String, productprice: String}
+
 
 
   pay_bitcoin_button() {
     this.payBitcoinButtonTarget.disabled = true;
+    let customerEmail = this.emailfieldTarget.value;
+    if(customerEmail == null || customerEmail === "" || customerEmail < 5) {
+      this.orderStatusTarget.textContent = "Email not long enough";
+      this.payBitcoinButtonTarget.disabled = false;
+      console.log("email: " + customerEmail);
+      return false;
+    }
 
+    return fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
+    .then(response => response.json())
+    .then(pair => pair.bitcoin)
+    .then(pair => pair.usd)
+    .then(usdt_price => pay_bitcoin_qr(this.addressValue, usdt_price, this.productpriceValue))
+    .then((paymentUrl) => {
+        //payment placed
+        // this.orderStatusTarget.textContent="Payment Placed txn: " + orderDetails.txn;
+
+        this.qrCanvasTarget.hidden = false;
+ 
+        QRCode.toCanvas(this.qrCanvasTarget, paymentUrl, function (error) {
+          if (error) console.error(error)
+          console.log('success!');
+        })
+  
+        // Rails.ajax({
+        //   type: "POST", 
+        //   url: "/pay/create",
+        //   data: new URLSearchParams(orderData).toString(),
+        //   success: function(repsonse){
+        //     console.log("success: " + new URLSearchParams(orderData).toString())
+        //     console.log(repsonse)
+        //   },
+        //   error: function(repsonse){
+        //     console.log("failure: " + new URLSearchParams(orderData).toString())
+        //     console.log(repsonse)
+        //   }
+        // })
+
+        //JS redirect to Order page 
+
+    })
+    .catch((err) => {
+      if (err.code === 4001) {
+        // EIP-1193 userRejectedRequest error
+        // If this happens, the user rejected the connection request.
+        this.payBitcoinButtonTarget.disabled = false;
+        this.orderStatusTarget.textContent="Payment Rejected";
+      } else if(err.code === -32602) {
+        this.payBitcoinButtonTarget.disabled = false;
+        this.orderStatusTarget.textContent="Please connect with Metamask Wallet.";
+      } else {
+        console.error(err);
+        this.payBitcoinButtonTarget.disabled = false;
+        this.orderStatusTarget.textContent="Payment failed error code: " + err.code;
+      }
+    });
     
     console.log("Bitcoin payment");
   }

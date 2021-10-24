@@ -12,8 +12,19 @@
         <%= image_tag @inovice.user.logo, alt: "…", width: "100", height: "100" %>
        <% end %>
       <h4><b><%=@inovice.seller_name %></b></h4>
-      Ethereum Address 
-    <p><b><%= @inovice.user.ethereum_address %> </b></p>
+
+      <div>
+       <% if not @inovice.user.ethereum_address.empty? %>
+          Ethereum Address 
+          <p><b><%= @inovice.user.ethereum_address %> </b></p>
+       <%end %>
+
+       <% if not @inovice.user.bitcoin_address.empty? %>
+          Bitcoin Address 
+          <p><b><%= @inovice.user.bitcoin_address %> </b></p>
+       <%end %>
+
+    </div>
     </div>
   </div>
 </div>
@@ -53,11 +64,16 @@
     <div class="d-grid col-2 mx-auto p-3">
         <button class="btn btn-success" data-meta-target="payEthereumButton" data-action="click->meta#pay_ethereum_button" type="submit" id="sub_btn">Pay with Ethereum</button><br>
           <div data-meta-target="orderStatus"></div>
+
+        <button class="btn btn-warning" data-meta-target="payBitcoinButton" data-action="click->meta#pay_bitcoin_button" type="submit" id="sub_btn">Pay with Bitcoin</button><br>
+        <div data-meta-target="bitcoinQRCode"></div>
 </div>
 
 </div>
 
-
+<canvas width="300" height="300" id="QRCode" data-meta-target="qrCanvas" hidden="true">
+  An alternative text describing what your canvas displays.
+</canvas>
 
 
   <div class="p-2">

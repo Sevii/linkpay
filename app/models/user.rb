@@ -20,4 +20,5 @@ class User < ApplicationRecord
 
 
   validates :ethereum_address, length: { minimum: 42, maximum: 42 }, allow_blank: true
+  validates :bitcoin_address, length: { minimum: 26, maximum: 42 }, allow_blank: true
 end

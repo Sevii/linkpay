@@ -8,6 +8,7 @@ import BigNumber from "bignumber.js";
 
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
+import qs from "qs";
 
 var currentAccount = "";
 var walletConnectProvider = null;
@@ -203,5 +204,78 @@ export async function pay(toAddress, usdt_price, product_price) {
       return payMetamask(toAddress, gweiAmount, usdt_price_bn);
     }
 }
+
+function encode (address, options, urnScheme) {
+  options = options || {}
+  var scheme = urnScheme || 'bitcoin'
+  var query = qs.stringify(options)
+
+  if (options.amount) {
+    if (!isFinite(options.amount)) throw new TypeError('Invalid amount')
+    if (options.amount < 0) throw new TypeError('Invalid amount')
+  }
+
+  return scheme + ':' + address + (query ? '?' : '') + query
+}
+
+
+export async function pay_bitcoin_qr(toAddress, usdt_price, product_price)  {
+  let usdt_price_bn = new BigNumber(usdt_price * 100);
+
+    console.log(usdt_price_bn.toFixed());
+
+    let product_price_bn = new BigNumber(product_price);
+    console.log(product_price_bn.toFixed());
+
+    let btc_amount_bn = product_price_bn.div(usdt_price_bn);
+
+    console.log("btc_amount: " + btc_amount_bn.toFixed());
+    console.log("usdt_price_bn: " + usdt_price_bn.toFixed());
+    console.log("product_price_bn: " + product_price_bn.toFixed());
+    let currencyValue = btc_amount_bn.toFixed(); 
+    console.log("Amount in btc: " + currencyValue);
+  
+
+  //amount must be in decimal format BTC unlike eth which is in wei.
+  let options = {
+    amount:  currencyValue,
+    label: "this is a label",
+    message: "seviipay" + getRandomArbitrary(1,100)
+  }
+
+  console.log(options);
+
+  let url = encode(toAddress, options, null);
+  console.log(url);
+
+  return url;
+
+}
+
+
+
+
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
