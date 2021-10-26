@@ -1,5 +1,12 @@
 
-<div class="container border text-center" data-controller="meta" data-meta-productprice-value=<%= @inovice.usd_price %> data-meta-address-value="<%= @inovice.user.ethereum_address %>" data-meta-inovice-value="<%= @inovice.id %>" >
+<div class="container border text-center" 
+  data-controller="meta" 
+  data-meta-productprice-value=<%= @inovice.usd_price %> 
+  data-meta-ethereumaddress-value="<%= @inovice.user.ethereum_address %>" 
+  data-meta-inovice-value="<%= @inovice.id %>" 
+  data-meta-bitcoinaddress-value="<%= @inovice.user.bitcoin_address %>" 
+  data-meta-expiration-value="<%= @expiration %>" 
+  >
   <div class="row">
     <h4>Crypto payments via Seviipay</h4>
     <hr class="my-4">

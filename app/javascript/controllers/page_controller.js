@@ -5,5 +5,4 @@ export default class extends Controller {
         console.log("clicked");
         window.location.replace("/pay");
     }
-
 }

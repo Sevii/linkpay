@@ -4,6 +4,7 @@ class PaymentsController < ApplicationController
   end
 
   def show
+    @expiration = Time.now + 15.minutes
     @inovice = Inovice.find(params[:id])
   end
 
