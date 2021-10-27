@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get '/pay/complete/:id', to: "payments#complete", as: 'complete'
   post 'pay/create', to: "payments#create", as: "create"
 
+  post 'quote/new', to: "quotes#new", as: "new"
+
   resources :inovices, :orders
 
   get '/', to: "home#index"

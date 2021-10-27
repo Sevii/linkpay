@@ -69,19 +69,24 @@ export default class extends Controller {
           console.log("success!");
         });
 
-        // Rails.ajax({
-        //   type: "POST",
-        //   url: "/pay/create",
-        //   data: new URLSearchParams(orderData).toString(),
-        //   success: function(repsonse){
-        //     console.log("success: " + new URLSearchParams(orderData).toString())
-        //     console.log(repsonse)
-        //   },
-        //   error: function(repsonse){
-        //     console.log("failure: " + new URLSearchParams(orderData).toString())
-        //     console.log(repsonse)
-        //   }
-        // })
+          let quoteData = {
+            inovice: this.inoviceValue,
+            currency: "bitcoin"
+          }
+
+        Rails.ajax({
+          type: "POST",
+          url: "/quote/new",
+          data: new URLSearchParams(quoteData).toString(),
+          success: function(response){
+            console.log("success: ")
+            console.log(response)
+          },
+          error: function(response){
+            console.log("failure: ")
+            console.log(response)
+          }
+        })
 
         //JS redirect to Order page
       })
