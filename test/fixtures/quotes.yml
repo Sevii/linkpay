@@ -1,14 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  inoviceId: 1
+  inovice_id: 1
   currency_to_usd: 1
   currency: MyString
   currency_amount: MyString
   expiration: 2021-10-26
 
 two:
-  inoviceId: 1
+  inovice_id: 1
   currency_to_usd: 1
   currency: MyString
   currency_amount: MyString

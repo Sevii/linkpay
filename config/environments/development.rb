@@ -30,6 +30,11 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # Blockcypher Config
+  config.x.blockcypher.api = "https://api.blockcypher.com/v1/btc/test3/"
+
+
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :digitalocean
 

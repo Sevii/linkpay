@@ -1,5 +1,5 @@
 class QuotesController < ApplicationController
-  include HTTParty
+    include HTTParty
 
   def new
     @quote = Quote.new
@@ -15,7 +15,13 @@ class QuotesController < ApplicationController
     @quote.inovice = Inovice.find(params[:inovice])
     @quote.currency_amount = currency_amount(@quote.currency, @quote.inovice.usd_price, @quote.currency_to_usd)
 
-    print 
+
+    # address is used to match the payment on the blockchain
+    if @quote.currency == "bitcoin" then
+      @quote.address = @quote.inovice.user.bitcoin_address
+    else
+      @quote.address = @quote.inovice.user.ethereum_address
+    end
 
     if @quote.save
       render :json => @quote.to_json
@@ -28,7 +34,7 @@ class QuotesController < ApplicationController
     if currency == "bitcoin" then
       return bitcoin_amount(usd_price, currency_to_usd)
     else
-       raise "Unsuportted Currency"
+       raise "Unsupported Currency"
     end
 
   end
@@ -40,7 +46,9 @@ class QuotesController < ApplicationController
     puts "currency_to_usd"
     puts currency_to_usd
 
-    return (usd_price.to_f ) / (currency_to_usd.to_f * 100)
+
+
+    return (usd_price.to_f * 100000000 ) / (currency_to_usd.to_f * 100)
   end
 
 

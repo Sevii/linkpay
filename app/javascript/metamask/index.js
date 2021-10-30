@@ -254,8 +254,6 @@ export async function pay_bitcoin_qr(toAddress, usdt_price, product_price)  {
 
 
 
-
-
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
