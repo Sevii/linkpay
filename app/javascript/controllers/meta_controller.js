@@ -48,7 +48,8 @@ export default class extends Controller {
     console.log("address: " + this.bitcoinaddressValue);
     let quoteData = {
       inovice: this.inoviceValue,
-      currency: "bitcoin"
+      currency: "bitcoin",
+      customer_email: customerEmail
     }
     console.log(this.productnameValue)
     Rails.ajax({

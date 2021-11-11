@@ -14,7 +14,7 @@ class QuotesController < ApplicationController
     @quote.currency = params["currency"]
     @quote.inovice = Inovice.find(params[:inovice])
     @quote.currency_amount = currency_amount(@quote.currency, @quote.inovice.usd_price, @quote.currency_to_usd)
-
+    @quote.customer_email = params[:customer_email]
 
     # address is used to match the payment on the blockchain
     if @quote.currency == "bitcoin" then
@@ -46,14 +46,12 @@ class QuotesController < ApplicationController
     puts "currency_to_usd"
     puts currency_to_usd
 
-
-
     return (usd_price.to_f * 100000000 ) / (currency_to_usd.to_f * 100)
   end
 
 
   private
     def quote_params
-      params.require(:inovice).permit(:currency)
+      params.require(:inovice).permit(:currency, :customer_email, :currency)
     end
 end

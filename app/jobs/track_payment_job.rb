@@ -5,8 +5,18 @@ class TrackPaymentJob < ApplicationJob
 
   queue_as :default
 
-
-
+  def getInputAddresses(transaction)
+    addresses = []
+    if transaction["inputs"].present? then
+      transaction["inputs"].each do |input| 
+        if input["addresses"].present? then
+          input["addresses"].each do |address| 
+            addresses.push(address)
+          end
+        end
+      end
+    end
+  end
 
   # Input Quote type
   # Output Order complete or expires the quote
@@ -58,11 +68,20 @@ class TrackPaymentJob < ApplicationJob
     puts txnStatus
     if txnStatus["outputs"].present? then
       txnStatus["outputs"].each do |output| 
-        if output["value"] == amountCur then
+        txnOutputValue = output["value"]
+        if txnOutputValue == amountCur then
           puts output["addresses"][0]
           foundAddress = output["addresses"][0]
           if foundAddress.present? then
              puts "found txn output with the correct amount"
+             quote.paid = true
+             quote.save
+             fromAddress = getInputAddresses(txnStatus)[0]
+
+             @order = Order.new(transaction_hash: transaction, inovice_id: quote.inovice_id, currency_amount: txnOutputValue, currency_to_usd: quote.currency_to_usd, customer_email: quote.customer_email, account: fromAddress, currency: quote.currency)
+             @order.save
+             OrderPlacedMailer.with(order: @order, inovice: quote.inovice).order_placed_email.deliver_now
+             OrderPlacedMailer.with(order: @order, inovice: quote.inovice).order_confirmation_email.deliver_now
           end
 
         end
