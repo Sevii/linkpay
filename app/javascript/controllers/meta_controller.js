@@ -4,10 +4,11 @@ import {
   pay,
   onboard,
   walletCompatible,
-  pay_bitcoin_qr
+  pay_bitcoin_qr,
+  encode
 } from "../metamask/index";
 import Rails from "@rails/ujs";
-
+import BigNumber from "bignumber.js";
 import QRCode from "qrcode";
 
 export default class extends Controller {
@@ -29,7 +30,8 @@ export default class extends Controller {
     inovice: String,
     productprice: String,
     bitcoinaddress: String,
-    expiration: String
+    expiration: String,
+    productname: String
   };
 
   pay_bitcoin_button() {
@@ -44,69 +46,54 @@ export default class extends Controller {
 
     console.log(this.inoviceValue);
     console.log("address: " + this.bitcoinaddressValue);
-
-    return fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-    )
-      .then(response => response.json())
-      .then(pair => pair.bitcoin)
-      .then(pair => pair.usd)
-      .then(usdt_price =>
-        pay_bitcoin_qr(
-          this.bitcoinaddressValue,
-          usdt_price,
-          this.productpriceValue
-        )
-      )
-      .then(paymentUrl => {
-        //payment placed
-        // this.orderStatusTarget.textContent="Payment Placed txn: " + orderDetails.txn;
-
-        this.qrCanvasTarget.hidden = false;
-
-        QRCode.toCanvas(this.qrCanvasTarget, paymentUrl, function(error) {
-          if (error) console.error(error);
-          console.log("success!");
-        });
-
-          let quoteData = {
-            inovice: this.inoviceValue,
-            currency: "bitcoin"
-          }
-
-        Rails.ajax({
+    let quoteData = {
+      inovice: this.inoviceValue,
+      currency: "bitcoin"
+    }
+    console.log(this.productnameValue)
+    Rails.ajax({
           type: "POST",
+          context: this,
           url: "/quote/new",
           data: new URLSearchParams(quoteData).toString(),
-          success: function(response){
-            console.log("success: ")
-            console.log(response)
+          success: function(quote){
+            console.log("inside the Rails.ajax")
+            console.log(this)
+            var payment_url = pay_bitcoin_qr(
+              quote.address,
+              quote.currency_amount,
+              quote.currency,
+              this.context.productnameValue);
+            console.log(payment_url)
+            console.log(this.context.qrCanvasTarget)
+
+              let satoshi_amount = new BigNumber(quote.currency_amount);
+
+              //Divide by 100 Million to convert from sats to fractional bitcoin
+              let bitcoin_amount = satoshi_amount.div(100000000);
+
+              //amount must be in decimal format BTC unlike eth which is in wei.
+              let options = {
+                amount:  bitcoin_amount.toFixed(),
+                label: "Purchasing via Seviipay",
+                message: this.context.productnameValue
+              }
+
+              let url = encode(quote.address, options, null);
+
+
+            QRCode.toCanvas(this.context.qrCanvasTarget, url, function(error) {
+              if (error) console.error(error);
+
+            });
+            this.context.qrCanvasTarget.hidden = false;
           },
           error: function(response){
             console.log("failure: ")
             console.log(response)
           }
-        })
+        });
 
-        //JS redirect to Order page
-      })
-      .catch(err => {
-        if (err.code === 4001) {
-          // EIP-1193 userRejectedRequest error
-          // If this happens, the user rejected the connection request.
-          this.payBitcoinButtonTarget.disabled = false;
-          this.orderStatusTarget.textContent = "Payment Rejected";
-        } else if (err.code === -32602) {
-          this.payBitcoinButtonTarget.disabled = false;
-          this.orderStatusTarget.textContent =
-            "Please connect with Metamask Wallet.";
-        } else {
-          console.error(err);
-          this.payBitcoinButtonTarget.disabled = false;
-          this.orderStatusTarget.textContent =
-            "Payment failed error code: " + err.code;
-        }
-      });
 
     console.log("Bitcoin payment");
   }

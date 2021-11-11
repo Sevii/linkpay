@@ -6,6 +6,7 @@ class HomeController < ApplicationController
     def demo
     end
     def docs
+        @user = current_user
     end
     def privacy
     end

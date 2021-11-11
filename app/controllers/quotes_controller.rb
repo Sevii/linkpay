@@ -9,7 +9,7 @@ class QuotesController < ApplicationController
     else 
         return 500
     end
-
+    @quote.paid = false
     @quote.expiration = Time.now + 15.minutes
     @quote.currency = params["currency"]
     @quote.inovice = Inovice.find(params[:inovice])

@@ -1,0 +1,57 @@
+// curl https://api.blockcypher.com/v1/btc/test3/txs/ac2da060542dc11df2ace1a8acfecf9e24b392a52e7fd6222dff28cdbe50f26e
+{
+  "block_height": -1,
+  "block_index": -1,
+  "hash": "ac2da060542dc11df2ace1a8acfecf9e24b392a52e7fd6222dff28cdbe50f26e",
+  "addresses": [
+    "tb1qmqn907f2ywau70kghxu25xmdrcek0wfkl6fnml",
+    "tb1qv9mysl4lg8d2ywvfna0tw4kgeg37ayadkj3gug"
+  ],
+  "total": 169138,
+  "fees": 141,
+  "size": 222,
+  "vsize": 141,
+  "preference": "low",
+  "relayed_by": "185.75.76.62:18333",
+  "received": "2021-11-10T19:29:41.073Z",
+  "ver": 1,
+  "double_spend": false,
+  "vin_sz": 1,
+  "vout_sz": 2,
+  "confirmations": 0,
+  "inputs": [
+    {
+      "prev_hash": "1ff98d52d0a1f39a38cdc12d48bc2bf09b5c10f2706869f5da7f2a5a34deab7d",
+      "output_index": 0,
+      "output_value": 169279,
+      "sequence": 4294967295,
+      "addresses": [
+        "tb1qmqn907f2ywau70kghxu25xmdrcek0wfkl6fnml"
+      ],
+      "script_type": "pay-to-witness-pubkey-hash",
+      "age": 2101071,
+      "witness": [
+        "3044022044ccfa8d893bf8a12aeb3752d2e00044c6a53ff7ffd5e5a5b899fb8031006b100220743cbc395f626773323c5aaaf7012a205bc26089cde476cca9b7c996266b194101",
+        "03895d613da1721403b09b6a19d80774191117d4028cc5820e17875b85013950e3"
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "value": 22019,
+      "script": "00146176487ebf41daa239899f5eb756c8ca23ee93ad",
+      "addresses": [
+        "tb1qv9mysl4lg8d2ywvfna0tw4kgeg37ayadkj3gug"
+      ],
+      "script_type": "pay-to-witness-pubkey-hash"
+    },
+    {
+      "value": 147119,
+      "script": "0014d82657f92a23bbcf3ec8b9b8aa1b6d1e3367b936",
+      "addresses": [
+        "tb1qmqn907f2ywau70kghxu25xmdrcek0wfkl6fnml"
+      ],
+      "script_type": "pay-to-witness-pubkey-hash"
+    }
+  ]
+}

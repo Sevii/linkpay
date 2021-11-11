@@ -28,8 +28,11 @@
   <p class="lead">If you have any questions or need support please email me nick@seviipay.com and I will help you troubleshoot.  </p>
 </div>
 
-<a href="mailto:nick@seviipay.com?subject=Documentation Question&body=Question from User  <%= @user.id %> account email: <%=@user.email %>  %0D%0A Include your questions below.">Contact Us</a>
-
+  <% if @user %>
+    <a href="mailto:nick@seviipay.com?subject=Documentation Question&body=Question from User  <%= @user.id %> account email: <%=@user.email %>  %0D%0A Include your questions below.">Contact Us</a>
+   <% else %>
+    <a href="mailto:nick@seviipay.com?subject=Documentation Question&body=Include your questions below.">Contact Us</a>
+  <% end %>
 
 
 <footer class="navbar mt-auto py-3 bg-white">
@@ -42,3 +45,7 @@
 
 <!-- Convertkit mailing list signup form -->
 <script async data-uid="b9e9e721ce" src="https://expert-trailblazer-5967.ck.page/b9e9e721ce/index.js"></script>
+
+<a href="mailto:info@example.com?subject=Customer Question&body=Include your questions below.">Contact Us</a>
+<a href="mailto:info@example.com,him@example.com,you@example.com?cc=help@example.com&bcc=admin@example.com&subject=Customer Question&body=Include your questions below.">Contact Us</a>
+

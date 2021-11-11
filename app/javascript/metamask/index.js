@@ -205,7 +205,7 @@ export async function pay(toAddress, usdt_price, product_price) {
     }
 }
 
-function encode (address, options, urnScheme) {
+export function encode (address, options, urnScheme) {
   options = options || {}
   var scheme = urnScheme || 'bitcoin'
   var query = qs.stringify(options)
@@ -219,31 +219,22 @@ function encode (address, options, urnScheme) {
 }
 
 
-export async function pay_bitcoin_qr(toAddress, usdt_price, product_price)  {
-  let usdt_price_bn = new BigNumber(usdt_price * 100);
+export async function pay_bitcoin_qr(toAddress, currency_amount, currency, name)  {
 
-    console.log(usdt_price_bn.toFixed());
+  let satoshi_amount = new BigNumber(currency_amount);
 
-    let product_price_bn = new BigNumber(product_price);
-    console.log(product_price_bn.toFixed());
-
-    let btc_amount_bn = product_price_bn.div(usdt_price_bn);
-
-    console.log("btc_amount: " + btc_amount_bn.toFixed());
-    console.log("usdt_price_bn: " + usdt_price_bn.toFixed());
-    console.log("product_price_bn: " + product_price_bn.toFixed());
-    let currencyValue = btc_amount_bn.toFixed(); 
-    console.log("Amount in btc: " + currencyValue);
-  
+  //Divide by 100 Million to convert from sats to fractional bitcoin
+  let bitcoin_amount = satoshi_amount.div(100000000);
 
   //amount must be in decimal format BTC unlike eth which is in wei.
   let options = {
-    amount:  currencyValue,
-    label: "this is a label",
-    message: "seviipay" + getRandomArbitrary(1,100)
+    amount:  bitcoin_amount.toFixed(),
+    label: "Purchasing via Seviipay",
+    message: name
   }
 
   console.log(options);
+  console.log(toAddress);
 
   let url = encode(toAddress, options, null);
   console.log(url);

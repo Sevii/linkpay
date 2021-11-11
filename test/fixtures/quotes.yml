@@ -6,10 +6,12 @@ one:
   currency: MyString
   currency_amount: MyString
   expiration: 2021-10-26
-
+  paid: false
+  
 two:
   inovice_id: 1
   currency_to_usd: 1
   currency: MyString
   currency_amount: MyString
   expiration: 2021-10-26
+  paid: false
