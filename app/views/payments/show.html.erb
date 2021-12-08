@@ -74,11 +74,16 @@
     </div>
 
     <div class="d-grid col-2 mx-auto p-3">
+      <% if not @inovice.user.ethereum_address.nil? %>
         <button class="btn btn-success" data-meta-target="payEthereumButton" data-action="click->meta#pay_ethereum_button" type="submit" id="sub_btn">Pay with Ethereum</button><br>
           <div data-meta-target="orderStatus"></div>
+      <%end%>    
 
+      <% if not @inovice.user.bitcoin_address.nil? %>
         <button class="btn btn-warning" data-meta-target="payBitcoinButton" data-action="click->meta#pay_bitcoin_button" type="submit" id="sub_btn">Pay with Bitcoin</button><br>
         <div data-meta-target="bitcoinQRCode"></div>
+      <%end%>
+
 </div>
 
 </div>
