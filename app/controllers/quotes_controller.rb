@@ -1,6 +1,17 @@
 class QuotesController < ApplicationController
     include HTTParty
 
+
+  def paid
+    @quote = Quote.find(params[:id])
+    puts @quote.inspect
+    if @quote.paid then 
+      redirect_to complete_path @quote.order_id
+    else
+      render error: {error: "No order found"}, status: 404
+    end
+  end  
+
   def new
     @quote = Quote.new
     result = HTTParty.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
@@ -24,6 +35,7 @@ class QuotesController < ApplicationController
     end
 
     if @quote.save
+      TrackPaymentJob.perform_later(@quote)
       render :json => @quote.to_json
     else
       render :json => {error: "Unable to save quote", status: "500"}.to_json

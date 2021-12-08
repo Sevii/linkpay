@@ -237,15 +237,14 @@ export default class extends Controller {
         if(quoteToTrack) {
           console.log("Tracking quote: " + quoteToTrack.id);
           Rails.ajax({
-            type: "GET",
+            type: "POST",
             context: this,
             url: "/quote/paid/" + quoteToTrack.id,
             success: function(paid){
-              
+              quoteToTrack = null
             },
               
             error: function(response){
-              console.log("failure: ")
               console.log(response)
             }
           });

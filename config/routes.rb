@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   post 'pay/create', to: "payments#create", as: "create"
 
   post 'quote/new', to: "quotes#new", as: "new"
+  # get 'quote/paid/:id', to: "quotes#paid", as: "paid"
+  post 'quote/paid/:id', to: "quotes#paid", as: "paid"
 
   resources :inovices, :orders
 

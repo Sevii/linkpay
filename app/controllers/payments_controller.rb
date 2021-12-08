@@ -15,7 +15,6 @@ class PaymentsController < ApplicationController
   def complete
     @order = Order.find(params[:id])
     @inovice = Inovice.find(@order.inovice_id)
-
   end
 
   def create

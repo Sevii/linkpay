@@ -16,6 +16,7 @@ class TrackPaymentJob < ApplicationJob
         end
       end
     end
+    return addresses
   end
 
   # Input Quote type
@@ -74,12 +75,15 @@ class TrackPaymentJob < ApplicationJob
           foundAddress = output["addresses"][0]
           if foundAddress.present? then
              puts "found txn output with the correct amount"
-             quote.paid = true
-             quote.save
+             
              fromAddress = getInputAddresses(txnStatus)[0]
+             print fromAddress
 
              @order = Order.new(transaction_hash: transaction, inovice_id: quote.inovice_id, currency_amount: txnOutputValue, currency_to_usd: quote.currency_to_usd, customer_email: quote.customer_email, account: fromAddress, currency: quote.currency)
              @order.save
+             quote.paid = true
+             quote.order_id = @order.id
+             quote.save
              OrderPlacedMailer.with(order: @order, inovice: quote.inovice).order_placed_email.deliver_now
              OrderPlacedMailer.with(order: @order, inovice: quote.inovice).order_confirmation_email.deliver_now
           end
