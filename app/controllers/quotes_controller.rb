@@ -1,7 +1,6 @@
 class QuotesController < ApplicationController
     include HTTParty
 
-
   def paid
     @quote = Quote.find(params[:id])
     puts @quote.inspect

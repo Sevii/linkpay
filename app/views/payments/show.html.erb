@@ -22,15 +22,19 @@
       <h4><b><%=@inovice.seller_name %></b></h4>
 
       <div>
-       <% if not @inovice.user.ethereum_address.empty? %>
-          Ethereum Address 
-          <p><b><%= @inovice.user.ethereum_address %> </b></p>
-       <%end %>
+        <% if not @inovice.user.ethereum_address.nil? %>
+          <% if not @inovice.user.ethereum_address.empty? %>
+           Ethereum Address 
+            <p><b><%= @inovice.user.ethereum_address %> </b></p>
+          <%end %>
+        <%end %>
 
-       <% if not @inovice.user.bitcoin_address.empty? %>
-          Bitcoin Address 
-          <p><b><%= @inovice.user.bitcoin_address %> </b></p>
-       <%end %>
+       <% if not @inovice.user.bitcoin_address.nil? %>
+         <% if not @inovice.user.bitcoin_address.empty? %>
+            Bitcoin Address 
+            <p><b><%= @inovice.user.bitcoin_address %> </b></p>
+         <%end %>
+       <%end%>
 
     </div>
     </div>
