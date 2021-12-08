@@ -11,6 +11,8 @@ import Rails from "@rails/ujs";
 import BigNumber from "bignumber.js";
 import QRCode from "qrcode";
 
+var quoteToTrack = null
+
 export default class extends Controller {
   static targets = [
     "install",
@@ -33,6 +35,7 @@ export default class extends Controller {
     expiration: String,
     productname: String
   };
+
 
   pay_bitcoin_button() {
     this.payBitcoinButtonTarget.disabled = true;
@@ -59,7 +62,7 @@ export default class extends Controller {
           data: new URLSearchParams(quoteData).toString(),
           success: function(quote){
             console.log("inside the Rails.ajax")
-            console.log(this)
+            console.log(quote)
             var payment_url = pay_bitcoin_qr(
               quote.address,
               quote.currency_amount,
@@ -85,16 +88,15 @@ export default class extends Controller {
 
             QRCode.toCanvas(this.context.qrCanvasTarget, url, function(error) {
               if (error) console.error(error);
-
             });
             this.context.qrCanvasTarget.hidden = false;
+            quoteToTrack = quote
           },
           error: function(response){
             console.log("failure: ")
             console.log(response)
           }
         });
-
 
     console.log("Bitcoin payment");
   }
@@ -171,10 +173,15 @@ export default class extends Controller {
           this.orderStatusTarget.textContent =
             "Please connect with Metamask Wallet.";
         } else {
-          console.error(err);
-          this.payEthereumButtonTarget.disabled = false;
-          this.orderStatusTarget.textContent =
+          if(typeof err.code === 'undefined') {
+            this.orderStatusTarget.textContent = err.message
+          } 
+          else {
+             this.payEthereumButtonTarget.disabled = false;
+             this.orderStatusTarget.textContent =
             "Payment failed error code: " + err.code;
+          }
+         
         }
       });
   }
@@ -192,6 +199,7 @@ export default class extends Controller {
   connect() {
     if (this.expirationValue) {
       this.startRefreshing();
+      this.quoteTracking();
     }
 
     console.log("address: " + this.addressValue);
@@ -222,5 +230,27 @@ export default class extends Controller {
       console.log("Reloading");
       location.reload();
     }, 600000);
+  }
+
+  quoteTracking() {
+      setInterval(() => {
+        if(quoteToTrack) {
+          console.log("Tracking quote: " + quoteToTrack.id);
+          Rails.ajax({
+            type: "GET",
+            context: this,
+            url: "/quote/paid/" + quoteToTrack.id,
+            success: function(paid){
+              
+            },
+              
+            error: function(response){
+              console.log("failure: ")
+              console.log(response)
+            }
+          });
+
+        }
+      }, 1000);
   }
 }
