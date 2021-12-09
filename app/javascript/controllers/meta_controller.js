@@ -229,7 +229,7 @@ export default class extends Controller {
     setInterval(() => {
       console.log("Reloading");
       location.reload();
-    }, 600000);
+    }, 900000);
   }
 
   quoteTracking() {
