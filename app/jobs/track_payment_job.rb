@@ -1,7 +1,7 @@
 class TrackPaymentJob < ApplicationJob
     include HTTParty
   class TransactionNotFoundError < StandardError; end
-  retry_on TransactionNotFoundError, wait: 30.seconds, attempts: 10
+  retry_on TransactionNotFoundError, wait: 45.seconds, attempts: 40
 
   queue_as :default
 
